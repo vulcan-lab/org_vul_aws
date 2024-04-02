@@ -1,12 +1,12 @@
 {
     "twitch": {
         "awscloudformation": {
-            "AuthRoleName": "amplify-awsserverlessairline-twitch-160135-authRole",
-            "UnauthRoleArn": "arn:aws:iam::231436140809:role/amplify-awsserverlessairline-twitch-160135-unauthRole",
-            "AuthRoleArn": "arn:aws:iam::231436140809:role/amplify-awsserverlessairline-twitch-160135-authRole",
+            "AuthRoleName": "amplify-amplify09eeea5edc134-staging-114007-authRole",
+            "UnauthRoleArn": "arn:aws:iam::905418366688:role/amplify-amplify09eeea5edc134-staging-114007-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::905418366688:role/amplify-amplify09eeea5edc134-staging-114007-authRole",
             "Region": "ap-south-1",
-            "DeploymentBucketName": "arithaapp",
-            "UnauthRoleName": "amplify-awsserverlessairline-twitch-160135-unauthRole",
+            "DeploymentBucketName": "amplify-amplify09eeea5edc134-staging-114007-deployment",
+            "UnauthRoleName": "amplify-amplify09eeea5edc134-staging-114007-unauthRole ",
             "StackName": "amplify-amplify09eeea5edc134-staging-114007",
             "StackId": "arn:aws:cloudformation:ap-south-1:905418366688:stack/amplify-amplify09eeea5edc134-staging-114007/c143d810-f0e5-11ee-a2a1-0af2a6209c49",
             "AmplifyAppId": "d1kb8xazmhv9s9"
