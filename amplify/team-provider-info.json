@@ -7,9 +7,9 @@
             "Region": "ap-south-1",
             "DeploymentBucketName": "arithaapp",
             "UnauthRoleName": "amplify-awsserverlessairline-twitch-160135-unauthRole",
-            "StackName": "amplify-awsserverlessairline-twitch-160135",
-            "StackId": "arn:aws:cloudformation:eu-west-1:231436140809:stack/amplify-awsserverlessairline-twitch-160135/9acd3de0-37e2-11ea-a2db-0adf61345742",
-            "AmplifyAppId": "d34s789vnlqyw4"
+            "StackName": "amplify-amplify09eeea5edc134-staging-114007",
+            "StackId": "arn:aws:cloudformation:ap-south-1:905418366688:stack/amplify-amplify09eeea5edc134-staging-114007/c143d810-f0e5-11ee-a2a1-0af2a6209c49",
+            "AmplifyAppId": "d1kb8xazmhv9s9"
         },
         "categories": {
             "auth": {
