@@ -8,8 +8,6 @@ Parameters:
   unauthRoleArn:
     Type: String
   
-  
-
     
   identityPoolName:
     Type: String
@@ -232,7 +230,7 @@ Resources:
             - ' }'
             - '};'
       Handler: index.handler
-      Runtime: nodejs20.x
+      Runtime: nodejs20.x 
       Timeout: '300'
       Role: !GetAtt 
         - UserPoolClientRole
