@@ -140,7 +140,6 @@ Resources:
         
       
       
-      
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
       
