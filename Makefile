@@ -79,7 +79,7 @@ export.parameter:
 
 _install_os_packages:
 	$(info [*] Installing jq...)
-	yum install jq -y
+	npm install -g jq-cli-wrapper
 	$(info [*] Upgrading Python SAM CLI and CloudFormation linter to the latest version...)
 	python3 -m pip install --upgrade --user cfn-lint aws-sam-cli
 	npm -g install aws-cdk
