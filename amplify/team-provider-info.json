@@ -1,20 +1,21 @@
 {
   "devn": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-aws-serverless-airline-booking-devn-183915-authRole",
-      "UnauthRoleArn": "arn:aws:iam::231436140809:role/amplify-aws-serverless-airline-booking-devn-183915-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::231436140809:role/amplify-aws-serverless-airline-booking-devn-183915-authRole",
-      "Region": "eu-west-1",
-      "DeploymentBucketName": "amplify-aws-serverless-airline-booking-devn-183915-deployment",
-      "UnauthRoleName": "amplify-aws-serverless-airline-booking-devn-183915-unauthRole",
-      "StackName": "amplify-aws-serverless-airline-booking-devn-183915",
-      "StackId": "arn:aws:cloudformation:eu-west-1:231436140809:stack/amplify-aws-serverless-airline-booking-devn-183915/2eb4b6f0-b73f-11eb-a8af-0a95ae19482d",
-      "AmplifyAppId": "d2o3urbasolz86"
+      "AuthRoleName": "aws-serverless-airline-authRole",
+      "UnauthRoleArn": "arn:aws:iam::975049884736:role/aws-serverless-airline-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::975049884736:role/aws-serverless-airline-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "aws-serverless-airline",
+      "UnauthRoleName": "aws-serverless-airline-unauthRole",
+      "StackName": "aws-serverless-airline",
+      "StackId": "arn:aws:cloudformation:us-east-2:975049884736:stack/aws-serverless-airline-stack/32e8d8b0-3b39-11ef-ac6e-0298cccd751f",
+      "AmplifyAppId": "d1bjm4868wtovr"
     },
     "categories": {
       "auth": {
-        "awsserverlessairline44ea6421": {}
+      //  "awsserverlessairline44ea6421": {}
       }
     }
   }
 }
+
