@@ -10,11 +10,6 @@
       "StackName": "aws-serverless-airline",
       "StackId": "arn:aws:cloudformation:us-east-2:975049884736:stack/aws-serverless-airline-stack/32e8d8b0-3b39-11ef-ac6e-0298cccd751f",
       "AmplifyAppId": "d1bjm4868wtovr"
-    },
-    "categories": {
-      "auth": {
-      //  "awsserverlessairline44ea6421": {}
-      }
     }
   }
 }
