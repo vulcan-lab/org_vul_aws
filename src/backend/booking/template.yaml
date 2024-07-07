@@ -57,7 +57,7 @@ Resources:
             CodeUri: src/confirm-booking
             Layers:
                 - !Ref SharedLibsLayer
-            Runtime: python3.7
+            Runtime: python3.9
             Environment:
                 Variables:
                     BOOKING_TABLE_NAME: !Ref BookingTable
@@ -77,7 +77,7 @@ Resources:
             CodeUri: src/cancel-booking
             Layers:
                 - !Ref SharedLibsLayer
-            Runtime: python3.7
+            Runtime: python3.9
             Environment:
                 Variables:
                     BOOKING_TABLE_NAME: !Ref BookingTable
@@ -97,7 +97,7 @@ Resources:
             CodeUri: src/reserve-booking
             Layers:
                 - !Ref SharedLibsLayer
-            Runtime: python3.7
+            Runtime: python3.9
             Environment:
                 Variables:
                     BOOKING_TABLE_NAME: !Ref BookingTable
@@ -120,7 +120,7 @@ Resources:
             CodeUri: src/notify-booking
             Layers:
                 - !Ref SharedLibsLayer
-            Runtime: python3.7
+            Runtime: python3.9
             MemorySize: 256
             Environment:
                 Variables:

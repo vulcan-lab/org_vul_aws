@@ -1,17 +1,4 @@
 {
-  "devn": {
-    "awscloudformation": {
-      "AuthRoleName": "aws-serverless-airline-authRole",
-      "UnauthRoleArn": "arn:aws:iam::975049884736:role/aws-serverless-airline-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::975049884736:role/aws-serverless-airline-authRole",
-      "Region": "us-east-2",
-      "DeploymentBucketName": "aws-serverless-airline",
-      "UnauthRoleName": "aws-serverless-airline-unauthRole",
-      "StackName": "aws-serverless-airline",
-      "StackId": "arn:aws:cloudformation:us-east-2:975049884736:stack/aws-serverless-airline-stack/32e8d8b0-3b39-11ef-ac6e-0298cccd751f",
-      "AmplifyAppId": "d2egwnvjbjlmxi"
-    }
-  },
   "airline": {
     "awscloudformation": {
       "AuthRoleName": "amplify-awsserverlessairline-airline-40f6e-authRole",

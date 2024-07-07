@@ -1,5 +1,5 @@
-PROFILE := "twitch"
-SHARED_LIBS_LAYER ?= "arn:aws:lambda:eu-west-1:231436140809:layer:ProjectSharedLibs:2"
+PROFILE := "archive"
+SHARED_LIBS_LAYER ?= "arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3"
 
 target:
 	@$(MAKE) pr
@@ -38,8 +38,6 @@ invoke-refund-payment:
 		--profile ${PROFILE}
 
 deploy: ##=> Deploy payment service using SAM
-# [24-07-2020] Changed from `sam deploy` to `aws cloudformation deploy`
-# known issue: https://github.com/awslabs/aws-sam-cli/issues/1698
 	$(info [*] Packaging and deploying Payment service...)
 	sam package \
 		--s3-bucket $${DEPLOYMENT_BUCKET_NAME} \
@@ -50,7 +48,7 @@ deploy: ##=> Deploy payment service using SAM
 		--capabilities CAPABILITY_IAM CAPABILITY_AUTO_EXPAND \
 		--parameter-overrides \
 			Stage=$${AWS_BRANCH} \
-			SharedLibsLayer=/$${AWS_BRANCH}/shared/lambda/layers/projectArn
+			SharedLibsLayer=$${SHARED_LIBS_LAYER}
 
 delete: ##=> Delete payment service
 	aws cloudformation delete-stack --stack-name $${STACK_NAME}-payment-$${AWS_BRANCH}

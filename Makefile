@@ -1,14 +1,14 @@
-
 ##########################
 # Bootstrapping variables
 ##########################
 
-AWS_BRANCH ?= "dev"
-FLIGHT_TABLE_NAME ?= "UNDEFINED"
-STACK_NAME ?= "UNDEFINED"
-DEPLOYMENT_BUCKET_NAME ?= "UNDEFINED"
-GRAPHQL_API_ID ?= "UNDEFINED"
-BOOKING_TABLE_NAME ?= "UNDEFINED"
+AWS_BRANCH ?= "archive"
+FLIGHT_TABLE_NAME ?= "Flight-xq6ac3bi4rdunagd7rdqfacepy-airline"
+STACK_NAME ?= "aws-serverless-airline-stack"
+DEPLOYMENT_BUCKET_NAME ?= "amplify-awsserverlessairline-airline-40f6e-deployment"
+GRAPHQL_API_ID ?= "xq6ac3bi4rdunagd7rdqfacepy"
+BOOKING_TABLE_NAME ?= "Booking-xq6ac3bi4rdunagd7rdqfacepy-airline"
+SHARED_LIBS_LAYER = "arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3"
 
 target:
 	$(info ${HELP_MESSAGE})
@@ -20,7 +20,7 @@ init: ##=> Install OS deps and dev tools
 
 deploy: ##=> Deploy services
 	$(info [*] Deploying...)
-	$(MAKE) deploy.shared-lambda-layers
+	$(MAKE) deploy.shared-lambda-layers || true
 	$(MAKE) deploy.payment
 	$(MAKE) deploy.booking
 	$(MAKE) deploy.loyalty
@@ -97,7 +97,7 @@ define HELP_MESSAGE
 		Description: Flight Table name created by Amplify for Catalog service
 	STACK_NAME: "awsserverlessairline-twitch-20190705130553"
 		Description: Stack Name already deployed; used for dirty/individual deployment
-	DEPLOYMENT_BUCKET_NAME: "a_valid_bucket_name"
+	DEPLOYMENT_BUCKET_NAME: "amplify-awsserverlessairline-airline-40f6e-deployment"
 		Description: S3 Bucket name used for deployment artifacts
 	GRAPHQL_API_ID: "hnxochcn4vfdbgp6zaopgcxk2a"
 		Description: AppSync GraphQL ID already deployed
@@ -120,9 +120,3 @@ define HELP_MESSAGE
 	...::: Export parameter and its value to System Manager Parameter Store :::...
 	$ make export.parameter NAME="/env/service/amplify/api/id" VALUE="xzklsdio234"
 endef
-
-
-#########################
-Bootstrapping variables
-#########################
-

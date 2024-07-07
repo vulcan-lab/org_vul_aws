@@ -42,7 +42,7 @@ Resources:
     Properties:
       FunctionName: !Sub ServerlessAirline-CollectPayment-${Stage}
       Handler: collect.lambda_handler
-      Runtime: python3.7
+      Runtime: python3.9
       CodeUri: src/collect-payment
       Layers:
         - !Ref SharedLibsLayer
@@ -57,7 +57,7 @@ Resources:
       FunctionName: !Sub ServerlessAirline-RefundPayment-${Stage}
       Handler: refund.lambda_handler
       CodeUri: src/refund-payment
-      Runtime: python3.7
+      Runtime: python3.9
       Layers:
         - !Ref SharedLibsLayer
       Environment:
