@@ -47,6 +47,7 @@ Parameters:
     SharedLibsLayer:
         Type: AWS::SSM::Parameter::Value<String>
         Description: Project shared libraries Lambda Layer ARN
+        SharedLibsLayer: arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3
 
 Resources:
     ConfirmBooking:

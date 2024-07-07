@@ -8,7 +8,8 @@ STACK_NAME ?= "aws-serverless-airline-stack"
 DEPLOYMENT_BUCKET_NAME ?= "amplify-awsserverlessairline-airline-40f6e-deployment"
 GRAPHQL_API_ID ?= "xq6ac3bi4rdunagd7rdqfacepy"
 BOOKING_TABLE_NAME ?= "Booking-xq6ac3bi4rdunagd7rdqfacepy-airline"
-SHARED_LIBS_LAYER = "arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3"
+REGION ?= us-east=2
+SHARED_LIBS_LAYER ?= arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3
 
 target:
 	$(info ${HELP_MESSAGE})
@@ -22,45 +23,19 @@ deploy: ##=> Deploy services
 	$(info [*] Deploying...)
 	$(MAKE) deploy.shared-lambda-layers || true
 	$(MAKE) deploy.payment
-	$(MAKE) deploy.booking
-	$(MAKE) deploy.loyalty
-## Enable the deploy.perftest if you need to deploy the performance test stack
-#	$(MAKE) deploy.perftest 
 
 delete: ##=> Delete services
-	$(MAKE) delete.booking
 	$(MAKE) delete.payment
-	$(MAKE) delete.loyalty
 	$(MAKE) delete.shared-lambda-layers
-## Enable the delete.perftest if you need to delete the performance test stack
-#	$(MAKE) delete.perftest
-
-delete.booking: ##=> Delete booking service
-	$(MAKE) -C src/backend/booking delete
 
 delete.payment: ##=> Delete payment service
 	$(MAKE) -C src/backend/payment delete
 
-delete.loyalty: ##=> Delete loyalty service
-	$(MAKE) -C src/backend/loyalty delete
-
-delete.perftest:
-	$(MAKE) -C src/perf-tests delete
-
 delete.shared-lambda-layers: ##=> Delete shared Lambda layers stack
 	$(MAKE) -C src/backend/shared/libs delete
 
-deploy.booking: ##=> Deploy booking service using SAM
-	$(MAKE) -C src/backend/booking deploy
-
-deploy.payment: ##=> Deploy payment service using SAM
-	$(MAKE) -C src/backend/payment deploy
-
-deploy.loyalty: ##=> Deploy loyalty service using SAM and TypeScript build
-	$(MAKE) -C src/backend/loyalty deploy
-
-deploy.perftest: ##=> Deploying Gatling components for performance testing
-	$(MAKE) -C src/perf-tests deploy
+deploy.payment: ##=> Deploy Payment service using SAM
+    $(MAKE) -C src/backend/payment deploy SHARED_LIBS_LAYER=$(SHARED_LIBS_LAYER)
 
 deploy.shared-lambda-layers: ##=> Deploy shared Lambda Layers using SAM
 	$(MAKE) -C src/backend/shared/libs deploy
@@ -91,7 +66,7 @@ define HELP_MESSAGE
 	These variables are automatically filled at CI time except STRIPE_SECRET_KEY
 	If doing a dirty/individual/non-ci deployment locally you'd need them to be set
 
-	AWS_BRANCH: "dev"
+	AWS_BRANCH: "archive"
 		Description: Feature branch name used as part of stacks name; added by Amplify Console by default
 	FLIGHT_TABLE_NAME: "Flight-hnxochcn4vfdbgp6zaopgcxk2a-xray"
 		Description: Flight Table name created by Amplify for Catalog service
@@ -119,4 +94,4 @@ define HELP_MESSAGE
 
 	...::: Export parameter and its value to System Manager Parameter Store :::...
 	$ make export.parameter NAME="/env/service/amplify/api/id" VALUE="xzklsdio234"
-endef
+endef 

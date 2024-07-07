@@ -9,15 +9,14 @@ BOLD='\033[1;37m'
 
 function fetch_env_vars() {
     echo -e "[*] Fetching environment variables from Parameter Store in ${BOLD} region: ${AWS_DEFAULT_REGION}${NOCOLOR}"
-    FLIGHT_TABLE_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/storage/table/flight --query 'Parameter.Value' --output text &)
-    BOOKING_TABLE_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/storage/table/booking --query 'Parameter.Value' --output text &)
-    STACK_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/deployment/stackName --query 'Parameter.Value' --output text &)
-    DEPLOYMENT_BUCKET_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/deployment/deploymentBucket --query 'Parameter.Value' --output text &)
-    GRAPHQL_API_ID=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/api/id --query 'Parameter.Value' --output text &)
-    VUE_APP_StripePublicKey=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/payment/stripe/publicKey --query 'Parameter.Value' --output text &)
-    VUE_APP_PaymentChargeUrl=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/payment/api/charge/url --query 'Parameter.Value' --output text &)
-    SHARED_LIBS_LAYER=$(aws ssm get-parameter --name /${AWS_BRANCH}/shared/lambda/layers/projectArn --query 'Parameter.Value' --output text &)
-    wait
+    FLIGHT_TABLE_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/storage/table/flight --query 'Parameter.Value' --output text)
+    BOOKING_TABLE_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/storage/table/booking --query 'Parameter.Value' --output text)
+    STACK_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/deployment/stackName --query 'Parameter.Value' --output text)
+    DEPLOYMENT_BUCKET_NAME=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/deployment/deploymentBucket --query 'Parameter.Value' --output text)
+    GRAPHQL_API_ID=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/amplify/api/id --query 'Parameter.Value' --output text)
+    VUE_APP_StripePublicKey=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/payment/stripe/publicKey --query 'Parameter.Value' --output text)
+    VUE_APP_PaymentChargeUrl=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/payment/api/charge/url --query 'Parameter.Value' --output text)
+    SHARED_LIBS_LAYER=$(aws ssm get-parameter --name /${AWS_BRANCH}/service/shared/lambda/layers/projectArn --query 'Parameter.Value' --output text)
 }
 
 function print_vars() {
