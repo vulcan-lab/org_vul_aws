@@ -2,14 +2,15 @@
 # Bootstrapping variables
 ##########################
 
-AWS_BRANCH ?= "archive"
-FLIGHT_TABLE_NAME ?= "Flight-xq6ac3bi4rdunagd7rdqfacepy-airline"
-STACK_NAME ?= "aws-serverless-airline-stack"
-DEPLOYMENT_BUCKET_NAME ?= "amplify-awsserverlessairline-airline-40f6e-deployment"
-GRAPHQL_API_ID ?= "xq6ac3bi4rdunagd7rdqfacepy"
-BOOKING_TABLE_NAME ?= "Booking-xq6ac3bi4rdunagd7rdqfacepy-airline"
+AWS_BRANCH ?= "archive" #git branch 
+FLIGHT_TABLE_NAME ?= "xxxxxxxx"  # dynamodb FLIGHT_TABLE_NAME
+STACK_NAME ?= "xxxxxxxx"         # cloudformation stack 
+DEPLOYMENT_BUCKET_NAME ?= "xxxxxxxx"   # S3 Bucket 
+GRAPHQL_API_ID ?= " xxxxx"  
+BOOKING_TABLE_NAME ?= "xxxxxxx"  #dynamodb BOOKING_TABLE_NAME
 REGION ?= us-east=2
-SHARED_LIBS_LAYER ?= arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3
+SHARED_LIBS_LAYER ?= "arn:aws:lambda:us-x-x:xxxxxxxxxxx:layer:ProjectSharedLibs:x"   # add your own a shared libs_layer in lambda layers 
+
 
 target:
 	$(info ${HELP_MESSAGE})

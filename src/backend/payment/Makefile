@@ -1,5 +1,5 @@
 PROFILE := "archive"
-SHARED_LIBS_LAYER ?= "arn:aws:lambda:us-east-2:975049884736:layer:ProjectSharedLibs:3"
+SHARED_LIBS_LAYER ?= "arn:aws:lambda:us-x-x:xxxxxxxxxxx:layer:ProjectSharedLibs:x"   # add your own a shared libs_layer 
 
 target:
 	@$(MAKE) pr
