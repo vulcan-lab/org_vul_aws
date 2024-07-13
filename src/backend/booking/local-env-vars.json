@@ -1,20 +1,20 @@
 {
     "ConfirmBooking": {
-        "BOOKING_TABLE_NAME": "Booking-2pa2xn3qzzdi7ntbhdozirkmiy-twitch"
+        "BOOKING_TABLE_NAME": "Booking-xxxxxx"
     },
     "CancelBooking": {
-        "BOOKING_TABLE_NAME": "Booking-2pa2xn3qzzdi7ntbhdozirkmiy-twitch"
+        "BOOKING_TABLE_NAME": "Booking-xxxxxx"
     },
     "ReserveBooking": {
-        "BOOKING_TABLE_NAME": "Booking-2pa2xn3qzzdi7ntbhdozirkmiy-twitch"
+        "BOOKING_TABLE_NAME": "Booking-xxxxxx"
     },
     "ReserveFlightSeat": {
-        "FLIGHT_TABLE_NAME": "Flight-2pa2xn3qzzdi7ntbhdozirkmiy-twitch"
+        "FLIGHT_TABLE_NAME": "Flight-xxxxxxx"
     },
     "ReleaseFlightSeat": {
-        "FLIGHT_TABLE_NAME": "Flight-2pa2xn3qzzdi7ntbhdozirkmiy-twitch"
+        "FLIGHT_TABLE_NAME": "Flight-xxxxxxx"
     },
     "NotifyBooking": {
-        "BOOKING_TOPIC": "arn:aws:sns:eu-west-1:231436140809:awsserverlessairline-20190506121509-booking-twitch-BookingTopic-1P885Y48O73LQ"
+        "BOOKING_TOPIC": "arn:aws:sns:eu-west-1:xxxxxx:awsserverlessairline-xxxxxxxxxx-booking-twitch-BookingTopic-xxxxxxxx"
     }
 }

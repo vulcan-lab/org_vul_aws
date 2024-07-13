@@ -1,26 +1,16 @@
 {
-  "auth": {
-    "awsserverlessairline44ea6421": {
-      "service": "Cognito",
-      "providerPlugin": "awscloudformation",
-      "dependsOn": [],
-      "customAuth": false
-    }
-  },
   "api": {
     "awsserverlessairline": {
-      "service": "AppSync",
-      "providerPlugin": "awscloudformation",
       "output": {
         "authConfig": {
           "additionalAuthenticationProviders": [
             {
-              "authenticationType": "API_KEY",
               "apiKeyConfig": {
-                "apiKeyExpirationDays": 1,
                 "apiKeyExpirationDate": "2022-03-30T06:59:41.199Z",
+                "apiKeyExpirationDays": 1,
                 "description": "sample api key"
-              }
+              },
+              "authenticationType": "API_KEY"
             }
           ],
           "defaultAuthentication": {
@@ -30,7 +20,17 @@
             }
           }
         }
-      }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
+  "auth": {
+    "awsserverlessairline44ea6421": {
+      "customAuth": false,
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
     }
   }
 }

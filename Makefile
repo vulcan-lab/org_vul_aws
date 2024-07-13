@@ -1,14 +1,16 @@
-
 ##########################
 # Bootstrapping variables
 ##########################
 
-AWS_BRANCH ?= "dev"
-FLIGHT_TABLE_NAME ?= "UNDEFINED"
-STACK_NAME ?= "UNDEFINED"
-DEPLOYMENT_BUCKET_NAME ?= "UNDEFINED"
-GRAPHQL_API_ID ?= "UNDEFINED"
-BOOKING_TABLE_NAME ?= "UNDEFINED"
+AWS_BRANCH ?= "archive" #git branch 
+FLIGHT_TABLE_NAME ?= "xxxxxxxx"  # dynamodb FLIGHT_TABLE_NAME
+STACK_NAME ?= "xxxxxxxx"         # cloudformation stack 
+DEPLOYMENT_BUCKET_NAME ?= "xxxxxxxx"   # S3 Bucket 
+GRAPHQL_API_ID ?= " xxxxx"  
+BOOKING_TABLE_NAME ?= "xxxxxxx"  #dynamodb BOOKING_TABLE_NAME
+REGION ?= us-east=2
+SHARED_LIBS_LAYER ?= "arn:aws:lambda:us-x-x:xxxxxxxxxxx:layer:ProjectSharedLibs:x"   # add your own a shared libs_layer in lambda layers 
+
 
 target:
 	$(info ${HELP_MESSAGE})
@@ -20,47 +22,21 @@ init: ##=> Install OS deps and dev tools
 
 deploy: ##=> Deploy services
 	$(info [*] Deploying...)
-	$(MAKE) deploy.shared-lambda-layers
+	$(MAKE) deploy.shared-lambda-layers || true
 	$(MAKE) deploy.payment
-	$(MAKE) deploy.booking
-	$(MAKE) deploy.loyalty
-## Enable the deploy.perftest if you need to deploy the performance test stack
-#	$(MAKE) deploy.perftest 
 
 delete: ##=> Delete services
-	$(MAKE) delete.booking
 	$(MAKE) delete.payment
-	$(MAKE) delete.loyalty
 	$(MAKE) delete.shared-lambda-layers
-## Enable the delete.perftest if you need to delete the performance test stack
-#	$(MAKE) delete.perftest
-
-delete.booking: ##=> Delete booking service
-	$(MAKE) -C src/backend/booking delete
 
 delete.payment: ##=> Delete payment service
 	$(MAKE) -C src/backend/payment delete
 
-delete.loyalty: ##=> Delete loyalty service
-	$(MAKE) -C src/backend/loyalty delete
-
-delete.perftest:
-	$(MAKE) -C src/perf-tests delete
-
 delete.shared-lambda-layers: ##=> Delete shared Lambda layers stack
 	$(MAKE) -C src/backend/shared/libs delete
 
-deploy.booking: ##=> Deploy booking service using SAM
-	$(MAKE) -C src/backend/booking deploy
-
-deploy.payment: ##=> Deploy payment service using SAM
-	$(MAKE) -C src/backend/payment deploy
-
-deploy.loyalty: ##=> Deploy loyalty service using SAM and TypeScript build
-	$(MAKE) -C src/backend/loyalty deploy
-
-deploy.perftest: ##=> Deploying Gatling components for performance testing
-	$(MAKE) -C src/perf-tests deploy
+deploy.payment: ##=> Deploy Payment service using SAM
+    $(MAKE) -C src/backend/payment deploy SHARED_LIBS_LAYER=$(SHARED_LIBS_LAYER)
 
 deploy.shared-lambda-layers: ##=> Deploy shared Lambda Layers using SAM
 	$(MAKE) -C src/backend/shared/libs deploy
@@ -79,31 +55,34 @@ export.parameter:
 
 _install_os_packages:
 	$(info [*] Installing jq...)
-	yum install jq -y
+	npm install -g jq-cli-wrapper
 	$(info [*] Upgrading Python SAM CLI and CloudFormation linter to the latest version...)
 	python3 -m pip install --upgrade --user cfn-lint aws-sam-cli
 	npm -g install aws-cdk
 
 define HELP_MESSAGE
 
-	Environment variables:
+##########################
+#  Environment variables  #
+##########################
+	
 
 	These variables are automatically filled at CI time except STRIPE_SECRET_KEY
 	If doing a dirty/individual/non-ci deployment locally you'd need them to be set
 
-	AWS_BRANCH: "dev"
+	AWS_BRANCH: "archive"
 		Description: Feature branch name used as part of stacks name; added by Amplify Console by default
-	FLIGHT_TABLE_NAME: "Flight-hnxochcn4vfdbgp6zaopgcxk2a-xray"
+	FLIGHT_TABLE_NAME: "Flight-xxxxxxxx-xxxx"
 		Description: Flight Table name created by Amplify for Catalog service
-	STACK_NAME: "awsserverlessairline-twitch-20190705130553"
+	STACK_NAME: "awsserverlessairline-xxxxx"
 		Description: Stack Name already deployed; used for dirty/individual deployment
-	DEPLOYMENT_BUCKET_NAME: "a_valid_bucket_name"
+	DEPLOYMENT_BUCKET_NAME: " "
 		Description: S3 Bucket name used for deployment artifacts
-	GRAPHQL_API_ID: "hnxochcn4vfdbgp6zaopgcxk2a"
+	GRAPHQL_API_ID: "xxxxxx"
 		Description: AppSync GraphQL ID already deployed
-	BOOKING_TABLE_NAME: "Booking-hnxochcn4vfdbgp6zaopgcxk2a-xray"
+	BOOKING_TABLE_NAME: "Booking-xxxxxx"
 		Description: Flight Table name created by Amplify for Booking service
-	STRIPE_SECRET_KEY: "sk-test-asdf..."
+	STRIPE_SECRET_KEY: "sk_live_xxxxxxxxx"
 		Description: Stripe Private Secret Key generated in Stripe; manually added in Amplify Console Env Variables per App
 
 	Common usage:
@@ -119,4 +98,4 @@ define HELP_MESSAGE
 
 	...::: Export parameter and its value to System Manager Parameter Store :::...
 	$ make export.parameter NAME="/env/service/amplify/api/id" VALUE="xzklsdio234"
-endef
+endef 
