@@ -62,24 +62,27 @@ _install_os_packages:
 
 define HELP_MESSAGE
 
-	Environment variables:
+##########################
+#  Environment variables  #
+##########################
+	
 
 	These variables are automatically filled at CI time except STRIPE_SECRET_KEY
 	If doing a dirty/individual/non-ci deployment locally you'd need them to be set
 
 	AWS_BRANCH: "archive"
 		Description: Feature branch name used as part of stacks name; added by Amplify Console by default
-	FLIGHT_TABLE_NAME: "Flight-hnxochcn4vfdbgp6zaopgcxk2a-xray"
+	FLIGHT_TABLE_NAME: "Flight-xxxxxxxx-xxxx"
 		Description: Flight Table name created by Amplify for Catalog service
-	STACK_NAME: "awsserverlessairline-twitch-20190705130553"
+	STACK_NAME: "awsserverlessairline-xxxxx"
 		Description: Stack Name already deployed; used for dirty/individual deployment
-	DEPLOYMENT_BUCKET_NAME: "amplify-awsserverlessairline-airline-40f6e-deployment"
+	DEPLOYMENT_BUCKET_NAME: " "
 		Description: S3 Bucket name used for deployment artifacts
-	GRAPHQL_API_ID: "hnxochcn4vfdbgp6zaopgcxk2a"
+	GRAPHQL_API_ID: "xxxxxx"
 		Description: AppSync GraphQL ID already deployed
-	BOOKING_TABLE_NAME: "Booking-hnxochcn4vfdbgp6zaopgcxk2a-xray"
+	BOOKING_TABLE_NAME: "Booking-xxxxxx"
 		Description: Flight Table name created by Amplify for Booking service
-	STRIPE_SECRET_KEY: "sk_live_51N9rmIKwlCs9uFsCfVdM9XaiVks9Pklqn5jHpF8
+	STRIPE_SECRET_KEY: "sk_live_xxxxxxxxx"
 		Description: Stripe Private Secret Key generated in Stripe; manually added in Amplify Console Env Variables per App
 
 	Common usage:

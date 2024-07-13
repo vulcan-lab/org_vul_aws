@@ -1,5 +1,5 @@
 PROFILE := "twitch"
-SHARED_LIBS_LAYER ?= "arn:aws:lambda:eu-west-1:231436140809:layer:SharedLibsLayer:12"
+SHARED_LIBS_LAYER ?= "arn:aws:lambda:eu-west-xx:xxxxxxxxx:layer:SharedLibsLayer:12"
 
 target:
 	@$(MAKE) pr
