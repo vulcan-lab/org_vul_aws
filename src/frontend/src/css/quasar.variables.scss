@@ -1,25 +1,43 @@
-// Quasar SCSS (& Sass) Variables
-// --------------------------------------------------
-// To customize the look and feel of this app, you can override
-// the Sass/SCSS variables found in Quasar's source Sass/SCSS files.
+@import url('https://fonts.googleapis.com/css?family=Raleway');
 
-// Check documentation for full list of Quasar variables
+$tertiary: #555;
 
-// Your own variables (that are declared here) and Quasar's own
-// ones will be available out of the box in your .vue/.scss/.sass files
+$neutral: #E0E1E2;
+$positive: #21BA45;
+$negative: #DB2828;
+$info: #31CCEC;
+$warning: #F2C037;
 
-// It's highly recommended to change the default colors
-// to match your app's branding.
-// Tip: Use the "Theme Builder" on Quasar's documentation website.
 
-$primary   : #1976D2;
-$secondary : #26A69A;
-$accent    : #9C27B0;
+$primary: #861C6A;
+$secondary: #FA3336;
+$field-icon-size: 43px;
+$item-icon-size: 43px;
+$typography-font-family: 'Raleway', 'Open Sans', sans-serif;
+$content-toolbar-margin: 5rem;
+$between-content-margin: 0.4rem 0;
 
-$dark      : #1D1D1D;
-$dark-page : #121212;
+// Shared classes
+.heading {
+  margin-top: 2.5rem;
+  color: $primary;
+}
 
-$positive  : #21BA45;
-$negative  : #C10015;
-$info      : #31CCEC;
-$warning   : #F2C037;
+.wrapper {
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.cta__button {
+  text-transform: uppercase;
+  list-style-type: none;
+  font-size: 1.2rem;
+  margin: 1rem 0;
+  color: $primary;
+  justify-content: center;
+  font-weight: 500;
+}
+
+a {
+  text-decoration: none;
+}

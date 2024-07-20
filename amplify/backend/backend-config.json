@@ -1,6 +1,6 @@
 {
   "auth": {
-    "awsserverlessairlined47351f2d47351f2": {
+    "awsserverlessairline1ebaf59c1ebaf59c": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -14,8 +14,8 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "FAMILY_NAME",
-          "GIVEN_NAME",
+          "EMAIL",
+          "NAME",
           "PHONE_NUMBER"
         ],
         "socialProviders": [],

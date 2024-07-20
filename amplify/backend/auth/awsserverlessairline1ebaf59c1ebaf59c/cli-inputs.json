@@ -1,8 +1,8 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "resourceNameTruncated": "awsserd47351f2",
-    "userPoolName": "awsserverlessairlined47351f2_userpool_d47351f2",
+    "resourceNameTruncated": "awsser1ebaf59c",
+    "userPoolName": "awsserverlessairline1ebaf59c_userpool_1ebaf59c",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -19,31 +19,29 @@
     "passwordPolicyMinLength": 8,
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
-      "family_name",
-      "given_name",
+      "email",
+      "name",
       "phone_number"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
     "userpoolClientWriteAttributes": [
-      "family_name",
-      "given_name",
+      "email",
+      "name",
       "phone_number"
     ],
     "userpoolClientReadAttributes": [
       "email",
-      "family_name",
-      "given_name",
+      "name",
       "phone_number",
-      "preferred_username",
       "email_verified",
       "phone_number_verified"
     ],
-    "userpoolClientLambdaRole": "awsserd47351f2_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "awsser1ebaf59c_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": true,
-    "sharedId": "d47351f2",
-    "resourceName": "awsserverlessairlined47351f2d47351f2",
+    "sharedId": "1ebaf59c",
+    "resourceName": "awsserverlessairline1ebaf59c1ebaf59c",
     "authSelections": "userPoolOnly",
     "useDefault": "manual",
     "userPoolGroups": false,

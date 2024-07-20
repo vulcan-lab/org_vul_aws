@@ -1,6 +1,6 @@
 export type AmplifyDependentResourcesAttributes = {
   "auth": {
-    "awsserverlessairlined47351f2d47351f2": {
+    "awsserverlessairline1ebaf59c1ebaf59c": {
       "AppClientID": "string",
       "AppClientIDWeb": "string",
       "CreatedSNSRole": "string",
