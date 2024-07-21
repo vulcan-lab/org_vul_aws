@@ -1,0 +1,17 @@
+type Flight @model(subscriptions: null) {
+    id: ID!
+    departureDate: String!
+    departureAirportCode: String! @index(name:"ByDepartureSchedule", sortKeyFields: ["arrivalAirportCode", "departureDate"], queryField: "getFlightBySchedule")
+    departureAirportName: String!
+    departureCity: String!
+    departureLocale: String!
+    arrivalDate: String!
+    arrivalAirportCode: String!
+    arrivalAirportName: String!
+    arrivalCity: String!
+    arrivalLocale: String!
+    ticketPrice: Int!
+    ticketCurrency: String!
+    flightNumber: Int!
+    seatCapacity: Int!
+}

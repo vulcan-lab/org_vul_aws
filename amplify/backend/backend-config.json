@@ -1,4 +1,30 @@
 {
+  "api": {
+    "awsserverlessairline": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "awsserverlessairline1ebaf59c1ebaf59c"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authawsserverlessairline1ebaf59c1ebaf59c"
+            }
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  },
   "auth": {
     "awsserverlessairline1ebaf59c1ebaf59c": {
       "customAuth": false,
