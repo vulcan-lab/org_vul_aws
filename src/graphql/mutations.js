@@ -24,6 +24,7 @@ export const createFlight = /* GraphQL */ `
       seatCapacity
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -51,6 +52,7 @@ export const updateFlight = /* GraphQL */ `
       seatCapacity
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -78,6 +80,7 @@ export const deleteFlight = /* GraphQL */ `
       seatCapacity
       createdAt
       updatedAt
+      owner
       __typename
     }
   }

@@ -1,4 +1,8 @@
-type Flight @model(subscriptions: null) {
+type Flight @model(subscriptions: null) @auth(rules: [
+        { allow: owner },
+        { allow: groups, groups: ["Admins"] },
+        { allow: private, operations: [create, update, delete, read] }
+    ]){
     id: ID!
     departureDate: String!
     departureAirportCode: String! @index(name:"ByDepartureSchedule", sortKeyFields: ["arrivalAirportCode", "departureDate"], queryField: "getFlightBySchedule")

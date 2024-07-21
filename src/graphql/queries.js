@@ -21,6 +21,7 @@ export const getFlight = /* GraphQL */ `
       seatCapacity
       createdAt
       updatedAt
+      owner
       __typename
     }
   }
@@ -50,6 +51,7 @@ export const listFlights = /* GraphQL */ `
         seatCapacity
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken
@@ -92,6 +94,7 @@ export const getFlightBySchedule = /* GraphQL */ `
         seatCapacity
         createdAt
         updatedAt
+        owner
         __typename
       }
       nextToken
