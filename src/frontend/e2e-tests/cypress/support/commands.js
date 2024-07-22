@@ -23,3 +23,19 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import { Amplify } from "aws-amplify";
+import { signIn, fetchAuthSession} from "aws-amplify/auth";
+import awsconfig from '../../../aws-exports';
+
+Amplify.configure(awsconfig);
+
+Cypress.Commands.add('signIn', (username, password, userPoolWebClientId) =>{
+    return signIn({username: username, password: password}).then((user) => {
+        return fetchAuthSession().then((session) => {
+            const idToken = session.tokens.idToken;
+            localStorage.setItem(`CognitoIdentityServiceProvider.${userPoolWebClientId}.LastAuthUser`, username);
+            localStorage.setItem(`CognitoIdentityServiceProvider.${userPoolWebClientId}.${username}.idToken`, idToken);
+        });
+    });
+});
