@@ -1,6 +1,9 @@
 <script setup>
   import { Authenticator } from "@aws-amplify/ui-vue";
   import "@aws-amplify/ui-vue/styles.css";
+  import { useRouter } from "vue-router";
+
+  const router = useRouter();
 
   const formFields = {
     signUp: {
@@ -9,6 +12,11 @@
       },
     },
   }
+
+const navigateToFlights = () => {
+  signOut();
+  router.push('/flights');
+};
 </script>
 
 <template>
@@ -16,6 +24,10 @@
     <template v-slot="{ user, signOut }">
       <h1>Hello {{ user.username }}!</h1>
       <button @click="signOut">Sign Out</button>
+      <template v-if="user">
+        <br>
+        <button @click="navigateToFlights">Flights</button>
+      </template>
     </template>
   </authenticator>
 </template>
