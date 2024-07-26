@@ -28,42 +28,43 @@
       v-model="leftDrawerOpen"
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
-    <q-list no-border link inset-delimiter>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-icon color="primary" name="home" />
-        </q-item-section>
-        <q-item-section>
-          <q-item-section>Home</q-item-section>
-          <q-item-label caption>home</q-item-label>
-        </q-item-section>
-      </q-item>
+      <q-list no-border link inset-delimiter>
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon color="primary" name="home" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-section>Home</q-item-section>
+            <q-item-label caption>home</q-item-label>
+          </q-item-section>
+        </q-item>
 
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-icon color="primary" name="person" />
-        </q-item-section>
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon color="primary" name="person" />
+          </q-item-section>
 
-        <q-item-section>
-          <q-item-label>Profile</q-item-label>
-          <q-item-label caption>User profile</q-item-label>
-        </q-item-section>
-      </q-item>
+          <q-item-section>
+            <q-item-label>Profile</q-item-label>
+            <q-item-label caption>User profile</q-item-label>
+          </q-item-section>
+        </q-item>
 
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <q-icon color="primary" name="flight" />
-        </q-item-section>
+        <q-item clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon color="primary" name="flight" />
+          </q-item-section>
 
-        <q-item-section>
-          <q-item-label>My Bookings</q-item-label>
-          <q-item-label caption>Bookings</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
+          <q-item-section>
+            <q-item-label>My Bookings</q-item-label>
+            <q-item-label caption>Bookings</q-item-label>
+          </q-item-section>
+        </q-item>
+        
+      </q-list>
     </q-drawer>
 
-    <q-page-container>
+    <q-page-container class="bg-grey-2">
       <transition enter-active-class="animated fadeIn" appear>
         <router-view />
       </transition>
@@ -83,4 +84,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensure the container takes the full viewport height */
+}
+</style>

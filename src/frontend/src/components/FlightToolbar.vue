@@ -20,7 +20,7 @@
         </q-toolbar>
       </q-page-sticky>
     </div>
-  </template>
+</template>
   
   <script>
   export default {

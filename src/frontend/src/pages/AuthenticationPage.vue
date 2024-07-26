@@ -1,10 +1,17 @@
+<template>
+  <authenticator :sign-up-attributes="['name','phone_number','email']" :form-fields="formFields" variation="modal"></authenticator>
+</template>
+
 <script setup>
-  import { Authenticator } from "@aws-amplify/ui-vue";
-  import "@aws-amplify/ui-vue/styles.css";
+  import { Authenticator} from "@aws-amplify/ui-vue";
+  import { Hub } from '@aws-amplify/core'
   import { useRouter } from "vue-router";
+  import "@aws-amplify/ui-vue/styles.css";
+  import { getCurrentUser } from '@aws-amplify/auth';
+  import { onMounted } from "vue";
 
   const router = useRouter();
-
+  
   const formFields = {
     signUp: {
       name: {
@@ -13,21 +20,25 @@
     },
   }
 
-const navigateToFlights = () => {
-  signOut();
-  router.push('/flights');
+const listener = ({ payload }) => {
+  if(payload.event == 'signedIn'){
+    router.push("/flights");
+  }else{
+    console.log('user have not been signedIn successfully.');
+  }
 };
-</script>
 
-<template>
-  <authenticator :sign-up-attributes="['name','phone_number','email']" :form-fields="formFields" variation="modal">
-    <template v-slot="{ user, signOut }">
-      <h1>Hello {{ user.username }}!</h1>
-      <button @click="signOut">Sign Out</button>
-      <template v-if="user">
-        <br>
-        <button @click="navigateToFlights">Flights</button>
-      </template>
-    </template>
-  </authenticator>
-</template>
+Hub.listen('auth', listener);
+
+// Redirect to dashboard if already authenticated on component mount
+onMounted(() => {
+  getCurrentUser().then(user => {
+    if (user) {
+      router.push("/flights");
+    }else{
+      router.push('/login');
+    }
+  });
+});
+
+</script>

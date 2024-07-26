@@ -1,6 +1,6 @@
 import { generateClient } from 'aws-amplify/api';
-import * as mutations from '../graphql/mutations';
-import * as queries from '../graphql/queries';
+import * as mutations from '../../../graphql/mutations';
+import * as queries from '../../../graphql/queries';
 
 const client = generateClient();
 
