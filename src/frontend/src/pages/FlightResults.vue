@@ -25,21 +25,23 @@
   
 <script setup>
   import FlightCard from "../components/FlightCard.vue";
-  import FlightLoader from "../components/FlightLoader.vue";
   import { ref, onMounted } from "vue";
   import { FlightService } from "../services/FlightService"
+  import { useRoute } from "vue-router";
   
   const loading = ref(true);
   const flights = ref([]);
   const error = ref(null);
 
-  onMounted(async () => {
-    const departureAirportCode = "LGW"; // Example departure airport code
-    const arrivalAirportCode = "MAD"; // Example arrival airport code
-    const departureDate = "2019-12-02"; // Example departure date
+  const route = useRoute();
+  const departureAirportCode = ref(route.query.departureAirportCode);
+  const arrivalAirportCode = ref(route.query.arrivalAirportCode);
+  const departureDate = ref(route.query.departureDate);
 
+  onMounted(async () => {
+    //console.log('Search Flight : ', departureAirportCode, arrivalAirportCode, departureDate);
     try {
-      const response = await FlightService.getFlightBySchedule(departureAirportCode, arrivalAirportCode, departureDate);
+      const response = await FlightService.getFlightBySchedule(departureAirportCode.value, arrivalAirportCode.value, departureDate.value);
       flights.value = response.data.getFlightBySchedule.items;
     } catch (err) {
       error.value = err;
@@ -50,6 +52,7 @@
   });
 
 </script>
+
 <style scoped>
 
   .heading{

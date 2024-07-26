@@ -22,7 +22,7 @@
 
 const listener = ({ payload }) => {
   if(payload.event == 'signedIn'){
-    router.push("/flights");
+    router.push("/search");
   }else{
     console.log('user have not been signedIn successfully.');
   }
@@ -34,7 +34,7 @@ Hub.listen('auth', listener);
 onMounted(() => {
   getCurrentUser().then(user => {
     if (user) {
-      router.push("/flights");
+      router.push("/search");
     }else{
       router.push('/login');
     }

@@ -65,9 +65,9 @@
     </q-drawer>
 
     <q-page-container class="bg-grey-2">
-      <transition enter-active-class="animated fadeIn" appear>
+      
         <router-view />
-      </transition>
+     
     </q-page-container>
   </q-layout>
 </template>
@@ -89,6 +89,5 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Ensure the container takes the full viewport height */
 }
 </style>

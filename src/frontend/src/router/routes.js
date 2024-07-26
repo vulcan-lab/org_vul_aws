@@ -4,8 +4,9 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', redirect: '/login' },
-      { path: 'login', component: () => import('pages/AuthenticationPage.vue') },
-      { path: 'flights', component: () => import('pages/FlightResults.vue') }
+      { path: 'login', name:'AuthenticationPage', component: () => import('pages/AuthenticationPage.vue') },
+      { path: 'search', name:'SearchFlights', component: () => import('pages/SearchFlights.vue') },
+      { path: 'flights', name:'FlightResults', component: () => import('pages/FlightResults.vue')}
     ]
   },
 
