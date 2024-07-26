@@ -1,13 +1,17 @@
 <template>
     <q-page>
+      <flight-toolbar
+        :departure="departure"
+        :arrival="arrival"
+      />
       <div class="row justify-center items-center">
         <q-spinner-gears
-            color="primary"
-            size="5rem"
-            :thickness="5"
-            v-if="loading"
-            class="q-mt-md"
-          />
+          color="primary"
+          size="5rem"
+          :thickness="5"
+          v-if="loading"
+          class="q-mt-md"
+        />
       </div>
       <div v-if="flights.length && !loading">
         <router-link
@@ -25,6 +29,7 @@
   
 <script setup>
   import FlightCard from "../components/FlightCard.vue";
+  import FlightToolbar from "../components/FlightToolbar.vue";
   import { ref, onMounted } from "vue";
   import { FlightService } from "../services/FlightService"
   import { useRoute } from "vue-router";
@@ -38,8 +43,13 @@
   const arrivalAirportCode = ref(route.query.arrivalAirportCode);
   const departureDate = ref(route.query.departureDate);
 
+  const departure = ref('');
+  const arrival = ref('');
+
   onMounted(async () => {
     //console.log('Search Flight : ', departureAirportCode, arrivalAirportCode, departureDate);
+    departure.value = departureAirportCode.value;
+    arrival.value = arrivalAirportCode.value;
     try {
       const response = await FlightService.getFlightBySchedule(departureAirportCode.value, arrivalAirportCode.value, departureDate.value);
       flights.value = response.data.getFlightBySchedule.items;
