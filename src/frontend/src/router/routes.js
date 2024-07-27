@@ -1,6 +1,7 @@
 import SearchFlights from 'pages/SearchFlights.vue';
 import FlightResults from 'pages/FlightResults.vue';
 import AuthenticationPage from 'pages/AuthenticationPage.vue';
+import TestQselect from 'src/pages/TestQselect.vue';
 
 const routes = [
   {
@@ -15,7 +16,7 @@ const routes = [
       },
       { 
         path: '/search/results', 
-        name:'searchFlights', 
+        name:'searchResults', 
         component: FlightResults,
         alias: "/search",
       },

@@ -112,7 +112,6 @@
   const { sortByDeparture } = useScheduleSorter();
 
   const loading = ref(true);
-  const flights = ref([]);
   const filteredFlights = ref([]);
   const error = ref(null);
 
@@ -120,6 +119,7 @@
   const departureAirportCode = ref(route.query.departureAirportCode);
   const arrivalAirportCode = ref(route.query.arrivalAirportCode);
   const departureDate = ref(route.query.departureDate);
+  const flights = ref([]);
 
   const departure = ref('');
   const arrival = ref('');
@@ -134,8 +134,7 @@
     arrival.value = arrivalAirportCode.value;
     
     try {
-      const response = await FlightService.getFlightBySchedule(departureAirportCode.value, arrivalAirportCode.value, departureDate.value);
-      flights.value = response.data.getFlightBySchedule.items;
+      flights.value = route.query.flights ? JSON.parse(route.query.flights) : [];
       filteredFlights.value = flights.value;
     } catch (err) {
       error.value = err;

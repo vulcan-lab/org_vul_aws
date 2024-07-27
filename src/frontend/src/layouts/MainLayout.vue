@@ -19,7 +19,7 @@
           dense
           size="lg"
           icon="search"
-          :to="{ name: 'SearchFlights' }"
+          :to="{ name: 'home' }"
         />
       </q-toolbar>
     </q-header>

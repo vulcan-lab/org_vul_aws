@@ -12,10 +12,10 @@ describe('Flight CREATE API E2E Tests', () => {
     it('should create a new flight', () => {
 
         const flightData = {
-            departureDate: "2019-12-11T12:00+0000",
-            departureAirportCode: "LGW",
-            departureAirportName: "London Gatwick",
-            departureCity: "London",
+            departureDate: "2019-12-11T07:00+0000",
+            departureAirportCode: "AAP",
+            departureAirportName: "Abidjan Airport",
+            departureCity: "Abidjan",
             departureLocale: "Europe/London",
             arrivalDate: "2019-12-11T17:30+0000",
             arrivalAirportCode: "MAD",
