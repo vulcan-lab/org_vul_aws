@@ -76,14 +76,30 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { onBeforeMount, ref } from 'vue';
   import { useRouter } from 'vue-router';
+  import { fetchAuthSession } from '@aws-amplify/auth';
+  import { onMounted } from "vue";
 
   const router = useRouter();
 
   const isActive = (name) => {
     return router.currentRoute.value.name === name;
   }
+
+  // Redirect to dashboard if already authenticated on component mount
+  onBeforeMount(() => {
+    console.log("MAINLAYOUT");
+    fetchAuthSession().then((session) => {
+      try {
+        const idToken = session.tokens.idToken;
+        router.push({name: 'home'});
+      } catch (err) {
+        router.push({name: 'auth'});
+      }
+     
+    });
+  });
 
   // Example data for leftDrawer and leftDrawerOpen
   const leftDrawer = ref(true);

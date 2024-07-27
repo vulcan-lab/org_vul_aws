@@ -31,15 +31,4 @@
 
   Hub.listen('auth', listener);
 
-  // Redirect to dashboard if already authenticated on component mount
-  onMounted(() => {
-    getCurrentUser().then(user => {
-      if (user) {
-        router.push({name: 'home'});
-      }else{
-        router.push({name: 'auth'});
-      }
-    });
-  });
-
 </script>
