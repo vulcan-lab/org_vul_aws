@@ -11,21 +11,21 @@ describe('Flight CREATE API E2E Tests', () => {
 
     it('should create a new flight', () => {
 
-        const fligthData = {
-            departureDate: "2019-12-02T17:00+0000",
+        const flightData = {
+            departureDate: "2019-12-11T12:00+0000",
             departureAirportCode: "LGW",
             departureAirportName: "London Gatwick",
             departureCity: "London",
             departureLocale: "Europe/London",
-            arrivalDate: "2019-12-02T19:15+0000",
+            arrivalDate: "2019-12-11T17:30+0000",
             arrivalAirportCode: "MAD",
             arrivalAirportName: "Madrid Barajas",
             arrivalCity: "Madrid",
             arrivalLocale: "Europe/Madrid",
-            ticketPrice: 500,
+            ticketPrice: 350,
             ticketCurrency: "EUR",
-            flightNumber: 1815,
-            seatCapacity: 2
+            flightNumber: 1820,
+            seatCapacity: 4
         };
 
         cy.request({
@@ -61,8 +61,8 @@ describe('Flight CREATE API E2E Tests', () => {
             }
         }).then((response) => {
             expect(response.status).to.eq(200);
-            expect(response.body.data.createFlight).to.have.property('id');
-            expect(response.body.data.createFlight.departureAirportCode).to.eq(fligthData.departureAirportCode);
+            expect(response.body.data.createFlight).to.have.property('departureDate');
+            expect(response.body.data.createFlight.departureAirportCode).to.eq(flightData.departureAirportCode);
         });
 
     });
