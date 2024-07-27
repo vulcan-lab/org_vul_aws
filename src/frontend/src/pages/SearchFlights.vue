@@ -62,7 +62,7 @@
 <script setup>
   import { ref } from 'vue';
   import { date } from 'quasar';
-import { useRouter } from 'vue-router';
+  import { useRouter } from 'vue-router';
 
   const router = useRouter();
   
@@ -82,7 +82,7 @@ import { useRouter } from 'vue-router';
       departureDate: formatDate(departureDate.value, 'YYYY-MM-DD')
     }
 
-    router.push({name: 'FlightResults', query: params});
+    router.push({name: 'searchFlights', query: params});
 
     // Add your flight search logic here
     //console.log('Searching flight params:', params);

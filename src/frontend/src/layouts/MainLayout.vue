@@ -19,7 +19,7 @@
           dense
           size="lg"
           icon="search"
-          :to="{ name: 'home' }"
+          :to="{ name: 'SearchFlights' }"
         />
       </q-toolbar>
     </q-header>
@@ -29,7 +29,10 @@
       :content-class="$q.theme === 'mat' ? 'bg-grey-2' : null"
     >
       <q-list no-border link inset-delimiter>
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple  
+        :to="{ name: 'home' }"
+        :class="{'q-item--active': isActive('home')}"
+        >
           <q-item-section avatar>
             <q-icon color="primary" name="home" />
           </q-item-section>
@@ -72,16 +75,19 @@
   </q-layout>
 </template>
 
-<script>
-export default {
-  // name: 'LayoutName',
-  data() {
-    return {
-      leftDrawer: true,
-      leftDrawerOpen: this.$q.platform.is.desktop
-    };
+<script setup>
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+
+  const router = useRouter();
+
+  const isActive = (name) => {
+    return router.currentRoute.value.name === name;
   }
-};
+
+  // Example data for leftDrawer and leftDrawerOpen
+  const leftDrawer = ref(true);
+  const leftDrawerOpen = ref(router.currentRoute.value.meta.isDesktop || false);
 </script>
 
 <style>
@@ -90,4 +96,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+
+.q-item--active{
+  background-color: #e0e0e0;
+}
+
 </style>

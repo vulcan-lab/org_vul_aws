@@ -1,12 +1,29 @@
+import SearchFlights from 'pages/SearchFlights.vue';
+import FlightResults from 'pages/FlightResults.vue';
+import AuthenticationPage from 'pages/AuthenticationPage.vue';
+
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', redirect: '/login' },
-      { path: 'login', name:'AuthenticationPage', component: () => import('pages/AuthenticationPage.vue') },
-      { path: 'search', name:'SearchFlights', component: () => import('pages/SearchFlights.vue') },
-      { path: 'flights', name:'FlightResults', component: () => import('pages/FlightResults.vue')}
+      { 
+        path: '', 
+        name:'home', 
+        component: SearchFlights,
+        alias: "/search",
+      },
+      { 
+        path: '/search/results', 
+        name:'searchFlights', 
+        component: FlightResults,
+        alias: "/search",
+      },
+      { 
+        path: '/auth', 
+        name:'auth', 
+        component: AuthenticationPage,
+      },
     ]
   },
 
