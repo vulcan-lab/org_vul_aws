@@ -19,3 +19,40 @@ type Flight @model(subscriptions: null) @auth(rules: [
     flightNumber: Int!
     seatCapacity: Int!
 }
+
+# Booking uses API authorization level
+# and fine-grained auth to only allow book owners to see their own bookings
+# and any authenticated user member of Admin group (e.g. could be travel agency, etc.)
+
+type Booking @model(subscriptions: null) @auth(rules: [
+      {allow: owner, ownerField: "customer", identityClaim: "sub", operations: [create, read] },
+      {allow: groups, groups: ["Admin"] }
+    ]){
+    id: ID!
+    status: BookingStatus!
+    outboundFlight: Flight! @hasOne
+    paymentToken: String!
+    checkedIn: Boolean
+    customer: String @index(name: "ByCustomerStatus", sortKeyFields: ["status"], queryField: "getBookingByStatus")
+    createdAt: String
+    bookingReference: String
+}
+
+enum BookingStatus {
+    UNCONFIRMED
+    CONFIRMED
+    CANCELLED
+}
+
+input CreateBookingInput {
+  id: ID
+  status: BookingStatus
+  paymentToken: String!
+  checkedIn: Boolean
+  customer: String
+  bookingOutboundFlightId: ID!
+}
+
+type Mutation {
+    processBooking(input: CreateBookingInput!): Booking
+}
