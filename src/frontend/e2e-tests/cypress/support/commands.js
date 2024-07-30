@@ -25,7 +25,7 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 import { Amplify } from "aws-amplify";
-import { signIn, fetchAuthSession} from "aws-amplify/auth";
+import { signIn, fetchAuthSession, fetchUserAttributes} from "aws-amplify/auth";
 import awsconfig from '../../../aws-exports';
 
 Amplify.configure(awsconfig);
@@ -39,3 +39,9 @@ Cypress.Commands.add('signIn', (username, password, userPoolWebClientId) =>{
         });
     });
 });
+
+Cypress.Commands.add('getUserId', () => {
+    return fetchUserAttributes().then((attributes) => {
+        return attributes.sub;
+    });
+})

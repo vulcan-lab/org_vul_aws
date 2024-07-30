@@ -38,7 +38,6 @@
             emit-value
             map-options
             use-input
-            use-chips
             @filter="filterArrivalFlights"
             label="Select Arrival Airport"
             hint="Type to search by airport code or name"
@@ -158,14 +157,14 @@
   const filterDepartureFlights = (val, update, abort) => {
     // if input value(val) is empty , reset the filter list to show all flights
     if(val === ''){
-      filterDepartureFlights.value = removeDuplicates(flights.value, 'departureAirportName');
+      filteredDepartureFlights.value = removeDuplicates(flights.value, 'departureAirportName');
       update();
       return;
     }
 
-    //otherwise, use departureFuse to search and update the filterDepartureFlights arry
+    //otherwise, use departureFuse to search and update the filterDepartureFlights array
     const result = departureFuse.search(val).map(({item}) => item);
-    filterDepartureFlights.value = removeDuplicates(result, 'departureAirportName');
+    filteredDepartureFlights.value = removeDuplicates(result, 'departureAirportName');
     update();
   };
 
@@ -177,7 +176,7 @@
     }
 
     const result = arrivalFuse.search(val).map(({item}) => item);
-    filterArrivalFlights.value = removeDuplicates(result, 'arrivalAirportName');
+    filteredArrivalFlights.value = removeDuplicates(result, 'arrivalAirportName');
     update;
   }
 

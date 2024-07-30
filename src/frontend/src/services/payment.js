@@ -13,7 +13,7 @@ export async function proccessPayment({
     if(!paymentToken) throw 'Invalid payment token';
 
     const chargeData = {
-        amount: outboundFlight.ticketPrice,
+        amount: outboundFlight.ticketPrice * 100,
         currency: outboundFlight.ticketCurrency,
         source: paymentToken.details.id,
         description: `Payment by ${customerEmail}`,

@@ -23,6 +23,7 @@ export const BookingService = {
     },
 
     async processBooking ( { paymentToken, outboundFlight } ) {
+
         try {
             const customerEmail = (await fetchUserAttributes()).email;
 
@@ -40,7 +41,7 @@ export const BookingService = {
             }
 
             const res = await client.graphql({query: mutations.processBooking, variables: { input: processBookingInput}});
-            return  res.data.processBooking.id;
+            return res.dataprocessBooking.id;
 
         } catch (error) {
             console.error(`Procces booking failed, ${error.message}`);
@@ -60,7 +61,7 @@ export const BookingService = {
 
     async getBookingByStatus( status ) {
         try {
-            const { userId } = await getCurrentUser();
+            const userId = (await fetchUserAttributes()).sub;
             const bookingFliter = {
                 customer: userId,
                 status: {
