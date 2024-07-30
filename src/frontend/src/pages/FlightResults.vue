@@ -83,6 +83,10 @@
       </div>
       <div v-if=" filteredFlights.length && !loading">
         <router-link
+          :to="{
+            name: 'selectedFlight',
+            query: { flight: JSON.stringify(flight) }
+          }"
           v-for="flight in filteredFlights"
           :key="flight.id"
         >
@@ -99,7 +103,6 @@
   import FlightCard from "../components/FlightCard.vue";
   import FlightToolbar from "../components/FlightToolbar.vue";
   import { ref, onMounted, computed } from "vue";
-  import { FlightService } from "../services/FlightService"
   import { useRoute } from "vue-router";
   import { usePriceFilter } from "../../shared/mixins/filters/usePriceFilter";
   import { useScheduleFilter } from "../../shared/mixins/filters/useScheduleFilter";

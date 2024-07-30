@@ -1,4 +1,4 @@
-const { generateClient } = require("aws-amplify/api");
+import { generateClient } from 'aws-amplify/api';
 import { fetchUserAttributes } from 'aws-amplify/auth';
 import * as mutations from '../../../graphql/mutations';
 import * as queries from '../../../graphql/queries';
