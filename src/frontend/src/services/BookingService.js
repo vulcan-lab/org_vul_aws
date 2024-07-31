@@ -27,32 +27,34 @@ export const BookingService = {
         try {
             const customerEmail = (await fetchUserAttributes()).email;
 
-            console.info(`Processing payment before proceeding to book flight ${outboundFlight}`);
+            //let chargeToken = await proccessPayment({paymentToken, outboundFlight, customerEmail});
 
-            let chargeToken = await proccessPayment({paymentToken, outboundFlight, customerEmail});
+            // const processBookingInput = {
+            //     paymentToken: chargeToken,
+            //     bookingOutboundFlightId: outboundFlight.id
+            // }
+            //const res = await client.graphql({query: mutations.processBooking, variables: { input: processBookingInput}});
 
-            console.info(
-                `Creating booking with token ${chargeToken} for flight ${outboundFlight}`
-            );
+            // const bookingData = {
+            //     status: "UNCONFIRMED",
+            //     paymentToken: chargeToken,
+            //     bookingOutboundFlightId: outboundFlight.id
+            // }
 
-            const processBookingInput = {
-                paymentToken: chargeToken,
-                bookingOutboundFlightId: outboundFlight.id
-            }
+            // const res =  await client.graphql({query: mutations.createBooking, variables: { input: bookingData}});
+            // return res.data.createBooking.id;
 
-            const res = await client.graphql({query: mutations.processBooking, variables: { input: processBookingInput}});
-            return res.dataprocessBooking.id;
+            return 'aaf';
 
         } catch (error) {
-            console.error(`Procces booking failed, ${error.message}`);
-
+            //console.error(`Procces booking failed, ${error.message}`);
             throw new Error(`Procces booking failed, ${error.message}`);
         }
         
     },
 
     async getBooking( bookingId ) {
-        return await client.graphql({ query: queries.getBooking, variables: { input: {id: bookingId}}});
+        return await client.graphql({ query: queries.getBooking, variables: {id: bookingId}});
     },
 
     async listBookings( filter ) {
@@ -62,7 +64,7 @@ export const BookingService = {
     async getBookingByStatus( status ) {
         try {
             const userId = (await fetchUserAttributes()).sub;
-            const bookingFliter = {
+            const fetchData = {
                 customer: userId,
                 status: {
                     eq: status
@@ -70,12 +72,11 @@ export const BookingService = {
                 limit: 3
             }
 
-            const res = await client.graphql({query: queries.getBookingByStatus, variables: { filter : bookingFliter}});
+            const res = await client.graphql({query: queries.getBookingByStatus, variables: fetchData});
             return  res.data.getBookingByStatus.items;
 
         } catch (error) {
-            console.error(`Get booking by ${status} failed: ${error.message}`);
-            
+            //console.error(`Get booking by ${status} failed: ${error.message}`);
             throw new Error(`Get booking by ${status} failed: ${error.message}`);
         }
     }

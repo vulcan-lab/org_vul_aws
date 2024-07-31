@@ -2,6 +2,7 @@ import SearchFlights from 'pages/SearchFlights.vue';
 import FlightResults from 'pages/FlightResults.vue';
 import AuthenticationPage from 'pages/AuthenticationPage.vue';
 import FlightSelection from 'pages/FlightSelection.vue';
+import Bookings from 'pages/BookingsPage.vue'
 import TestQselect from 'src/pages/TestQselect.vue';
 
 const routes = [
@@ -25,6 +26,11 @@ const routes = [
         name: "selectedFlight",
         path: "/search/results/review",
         component: FlightSelection,
+      },
+      {
+        name: "bookings",
+        path: "/profile/bookings",
+        component: Bookings,
       },
       { 
         path: '/auth', 

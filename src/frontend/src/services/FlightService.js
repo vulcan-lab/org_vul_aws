@@ -18,7 +18,8 @@ export const FlightService = {
     },
     
     async getFlight(flightId) {
-        return await client.graphql({query: queries.getFlight, variables: {input : {id : flightId}}});
+        const response = await client.graphql({query: queries.getFlight, variables: {id : flightId}});
+        return response.data.getFlight;
     },
 
     async listFlights(filter) {

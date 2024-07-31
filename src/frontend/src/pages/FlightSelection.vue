@@ -122,7 +122,7 @@
 </template>
 
 <script setup>
-  // @ts-nocheck
+  
   import { ref, computed, onBeforeMount, onMounted, watch } from "vue";
   import { BookingService } from "../services/BookingService";
   import { useStore } from "vuex";
@@ -135,6 +135,9 @@
   import Fuse from "fuse.js";
 
   var stripe, card;
+
+  const stripeKey =
+    "pk_test_51PhwbjDWE31jyBLsLeTbV3dF7yWvpm9Af23q0mDn8FgAObEPgHCf3T25ktcoKcbbhgxkRWTIali48W93spKd5GaQ00kNRIahGM";
 
   const router = useRouter();
   const route = useRoute();
@@ -165,8 +168,7 @@
     error: "",
   });
 
-  const stripeKey =
-    "pk_test_51PhwbjDWE31jyBLsLeTbV3dF7yWvpm9Af23q0mDn8FgAObEPgHCf3T25ktcoKcbbhgxkRWTIali48W93spKd5GaQ00kNRIahGM";
+  
 
   const validations = useVuelidate(
     {
@@ -228,17 +230,12 @@
 
       if (token.value.error) throw token.value.error;
 
-      const bookingId = await BookingService.createBooking({
-        status:UNCONFIRMED,
+      const bookingId = await BookingService.processBooking({
         paymentToken: token.value,
         outboundFlight: selectedFlight,
       });
 
-      //router.push({ name: "bookings" });
-      $q.notify({
-        message: `Booking ${bookingId} proccessed successful`,
-        color: "green",
-      });
+      router.push({ name: "bookings"});
     } catch (err) {
       $q.notify({
         type: "negative",
