@@ -73,13 +73,15 @@
         </q-fab>
       </q-page-sticky>
       <div class="row justify-center items-center q-mt-lg">
-        <q-spinner-gears
-          color="primary"
-          size="5rem"
-          :thickness="5"
-          v-if="loading"
-          class="q-mt-md"
-        />
+        <div class="col-12">
+          <q-spinner-gears
+            color="primary"
+            size="5rem"
+            :thickness="5"
+            v-if="loading"
+            class="q-mt-md"
+          />
+        </div>
       </div>
       <div v-if=" filteredFlights.length && !loading">
         <router-link
@@ -116,7 +118,6 @@
 
   const loading = ref(true);
   const filteredFlights = ref([]);
-  const error = ref(null);
 
   const route = useRoute();
   const departureAirportCode = ref(route.query.departureAirportCode);
@@ -130,9 +131,8 @@
   const arrivalTimeFilter = ref('');
   const maxPriceFilter = ref(300);
   
-
   onMounted(async () => {
-    //console.log('Search Flight : ', departureAirportCode, arrivalAirportCode, departureDate);
+
     departure.value = departureAirportCode.value;
     arrival.value = arrivalAirportCode.value;
     
@@ -140,8 +140,7 @@
       flights.value = route.query.flights ? JSON.parse(route.query.flights) : [];
       filteredFlights.value = flights.value;
     } catch (err) {
-      error.value = err;
-      console.error(err);
+      //console.error(err);
     } finally {
       loading.value = false;
     }

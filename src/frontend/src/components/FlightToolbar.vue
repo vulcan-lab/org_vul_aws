@@ -40,5 +40,4 @@
     }
   });
 
-  console.log("PROPS:", props.departure);
 </script>

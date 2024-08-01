@@ -61,7 +61,8 @@ export const BookingService = {
         return await client.graphql({query: queries.listBookings, variables: { input: {filter: filter}}});
     },
 
-    async getBookingByStatus( status ) {
+    async getBookingByStatus( status,  paginationToken = "" ) {
+        var nextToken = paginationToken || null;
         try {
             const userId = (await fetchUserAttributes()).sub;
             const fetchData = {
@@ -69,11 +70,12 @@ export const BookingService = {
                 status: {
                     eq: status
                 },
-                limit: 3
+                limit: 3,
+                nextToken: nextToken
             }
 
             const res = await client.graphql({query: queries.getBookingByStatus, variables: fetchData});
-            return  res.data.getBookingByStatus.items;
+            return res.data.getBookingByStatus;
 
         } catch (error) {
             //console.error(`Get booking by ${status} failed: ${error.message}`);
