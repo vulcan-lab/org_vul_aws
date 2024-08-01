@@ -34,7 +34,7 @@
         :class="{'q-item--active': isActive('home')}"
         >
           <q-item-section avatar>
-            <q-icon color="primary" name="home" />
+            <q-icon color="primary" name="home" size="2.5em" />
           </q-item-section>
           <q-item-section>
             <q-item-section>Home</q-item-section>
@@ -44,7 +44,7 @@
 
         <q-item clickable v-ripple>
           <q-item-section avatar>
-            <q-icon color="primary" name="person" />
+            <q-icon color="primary" name="person" size="2.5em" />
           </q-item-section>
 
           <q-item-section>
@@ -53,9 +53,12 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple 
+        :to="{ name: 'bookings' }"
+        :class="{'q-item--active': isActive('bookings')}"
+        >
           <q-item-section avatar>
-            <q-icon color="primary" name="flight" />
+            <q-icon color="primary" name="flight" size="2.5em" />
           </q-item-section>
 
           <q-item-section>
