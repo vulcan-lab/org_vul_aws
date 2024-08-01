@@ -202,7 +202,8 @@
     if(searchResults.value.length === 0){
       $q.notify({
         type: 'warning',
-        message: 'No flights found matching the search criteria'
+        message: 'No flights matching the search criteria',
+        position: 'top-right'
       });
     }else{
       params.flights = JSON.stringify(searchResults.value);

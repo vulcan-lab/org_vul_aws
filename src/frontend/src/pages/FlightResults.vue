@@ -96,7 +96,7 @@
         </router-link>
       </div>
       <div v-if="!filteredFlights.length && !loading">
-       <p>No Corresponding Flights</p>
+       <p>{{ errorMessage }}</p>
       </div>
     </q-page>
   </template>
@@ -130,6 +130,8 @@
   const departureTimeFilter = ref('');
   const arrivalTimeFilter = ref('');
   const maxPriceFilter = ref(300);
+
+  const errorMessage = ref("");
   
   onMounted(async () => {
 
@@ -140,6 +142,7 @@
       flights.value = route.query.flights ? JSON.parse(route.query.flights) : [];
       filteredFlights.value = flights.value;
     } catch (err) {
+      errorMessage.value = err.message;
       //console.error(err);
     } finally {
       loading.value = false;
