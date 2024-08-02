@@ -3,6 +3,7 @@ import FlightResults from 'pages/FlightResults.vue';
 import AuthenticationPage from 'pages/AuthenticationPage.vue';
 import FlightSelection from 'pages/FlightSelection.vue';
 import Bookings from 'pages/BookingsPage.vue'
+import ProfilePage from 'pages/ProfilePage.vue';
 import TestQselect from 'src/pages/TestQselect.vue';
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
         name: "selectedFlight",
         path: "/search/results/review",
         component: FlightSelection,
+      },
+      {
+        name: "profile",
+        path: "/profile",
+        component: ProfilePage,
       },
       {
         name: "bookings",

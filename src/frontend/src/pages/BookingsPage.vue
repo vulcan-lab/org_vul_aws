@@ -63,6 +63,7 @@ import BookingFlight from "../components/BookingFlight.vue";
 import { BookingService } from "../services/BookingService";
 import { FlightService } from "../services/FlightService";
 import { date, useQuasar } from "quasar";
+import { getCurrentUser } from "aws-amplify/auth";
 
 const $q = useQuasar();
 
@@ -89,6 +90,15 @@ async function updateBookingsWithFlightDetails(items) {
   return updatedItems;
 }
 
+const checkAuthenticated = async () =>{
+    try {
+        const res = await getCurrentUser();
+        fullName.value = (await fetchUserAttributes()).name;
+    } catch (error) {
+        router.push({name: 'auth'});
+    }
+};
+
 // Function to format the date
 const formatDate = (dateString, format) => {
   return date.formatDate(dateString, format);
@@ -114,6 +124,7 @@ const loadBookings = async () =>{
 };
 
 onMounted(async () => {
+  checkAuthenticated();
   loadBookings();
 });
 </script>

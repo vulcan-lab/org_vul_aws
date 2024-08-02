@@ -42,7 +42,10 @@
           </q-item-section>
         </q-item>
 
-        <q-item clickable v-ripple>
+        <q-item clickable v-ripple
+        :to="{ name: 'profile' }"
+        :class="{'q-item--active': isActive('profile')}"
+        >
           <q-item-section avatar>
             <q-icon color="primary" name="person" size="2.5em" />
           </q-item-section>

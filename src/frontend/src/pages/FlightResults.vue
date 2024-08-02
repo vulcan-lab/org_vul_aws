@@ -132,9 +132,20 @@
   const maxPriceFilter = ref(300);
 
   const errorMessage = ref("");
+
+
+  const checkAuthenticated = async () =>{
+    try {
+        const res = await getCurrentUser();
+        fullName.value = (await fetchUserAttributes()).name;
+    } catch (error) {
+        router.push({name: 'auth'});
+    }
+  };
   
   onMounted(async () => {
-
+    checkAuthenticated();
+    
     departure.value = departureAirportCode.value;
     arrival.value = arrivalAirportCode.value;
     
