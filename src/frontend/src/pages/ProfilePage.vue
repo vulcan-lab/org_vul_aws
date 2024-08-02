@@ -163,8 +163,7 @@ const handleSignOut = async () =>{
 };
 
 onMounted(async () => {
-    checkAuthenticated();
-    getLoyalty();
+    checkAuthenticated().then(() => getLoyalty());
 });
 
 

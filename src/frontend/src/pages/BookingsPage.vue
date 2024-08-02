@@ -15,7 +15,7 @@
           class="q-display-1 text-primary booking__heading"
           data-test="booking-headline"
         >
-        <h4>Bookings</h4>
+        <div class="text-h4">Bookings</div>
         </div>
       </div>
       <div class="bookings">
@@ -64,12 +64,23 @@ import { BookingService } from "../services/BookingService";
 import { FlightService } from "../services/FlightService";
 import { date, useQuasar } from "quasar";
 import { getCurrentUser } from "aws-amplify/auth";
+import { useRouter } from "vue-router";
 
 const $q = useQuasar();
+const router = useRouter();
 
 const bookings = ref([]);
 const loading = ref(true);
 const paginationToken = ref("");
+
+const checkAuthenticated = async () =>{
+  try {
+      const res = await getCurrentUser();
+  } catch (error) {
+      router.push({name: 'auth'});
+      exit;
+  }
+};
 
 async function updateBookingsWithFlightDetails(items) {
   const updatedItems = await Promise.all(
@@ -90,15 +101,6 @@ async function updateBookingsWithFlightDetails(items) {
   return updatedItems;
 }
 
-const checkAuthenticated = async () =>{
-    try {
-        const res = await getCurrentUser();
-        fullName.value = (await fetchUserAttributes()).name;
-    } catch (error) {
-        router.push({name: 'auth'});
-    }
-};
-
 // Function to format the date
 const formatDate = (dateString, format) => {
   return date.formatDate(dateString, format);
@@ -106,9 +108,9 @@ const formatDate = (dateString, format) => {
 
 const loadBookings = async () =>{
   loading.value = true;
+  const status = "UNCONFIRMED";
   try {
-    const data = await BookingService.getBookingByStatus(
-      "UNCONFIRMED", paginationToken.value
+    const data = await BookingService.getBookingByStatus(status, paginationToken.value
     );
     bookings.value = await updateBookingsWithFlightDetails(data.items);
     paginationToken.value = data.nextToken;
@@ -117,6 +119,7 @@ const loadBookings = async () =>{
     $q.notify({
       type: "negative",
       message: `${error.message}`,
+      position: 'top-right'
     });
   } finally {
     loading.value = false;
@@ -124,7 +127,6 @@ const loadBookings = async () =>{
 };
 
 onMounted(async () => {
-  checkAuthenticated();
-  loadBookings();
+  checkAuthenticated().then(() => loadBookings());
 });
 </script>

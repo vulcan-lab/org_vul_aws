@@ -11,7 +11,7 @@
           class="q-headline text-primary text-center flight__headline"
           data-test="flight-headline"
         >
-          <h4>Review your selection</h4>
+          <h5>Review your selection</h5>
         </div>
       </div>
       <flight-card v-if="selectedFlight" :details="selectedFlight" />
@@ -168,8 +168,6 @@
     error: "",
   });
 
-  
-
   const validations = useVuelidate(
     {
       form: {
@@ -206,7 +204,7 @@
   });
 
   onMounted(() => {
-    filteredCountryOptions.value = form.value.countryOptions;
+    
 
     loadStripeJS()
       .then(loadStripeElements)
@@ -245,6 +243,7 @@
   };
 
   const loadStripeJS = () => {
+    filteredCountryOptions.value = form.value.countryOptions;
     return new Promise((resolve, reject) => {
       const stripeScript = document.createElement("script");
       stripeScript.async = true;

@@ -105,7 +105,7 @@
   import FlightCard from "../components/FlightCard.vue";
   import FlightToolbar from "../components/FlightToolbar.vue";
   import { ref, onMounted, computed } from "vue";
-  import { useRoute } from "vue-router";
+  import { useRoute, useRouter } from "vue-router";
   import { usePriceFilter } from "../../shared/mixins/filters/usePriceFilter";
   import { useScheduleFilter } from "../../shared/mixins/filters/useScheduleFilter";
   import { usePriceSorter } from "../../shared/mixins/sorters/usePriceSorter";
@@ -120,6 +120,8 @@
   const filteredFlights = ref([]);
 
   const route = useRoute();
+  const router = useRouter();
+
   const departureAirportCode = ref(route.query.departureAirportCode);
   const arrivalAirportCode = ref(route.query.arrivalAirportCode);
   const departureDate = ref(route.query.departureDate);
@@ -133,32 +135,18 @@
 
   const errorMessage = ref("");
 
-
-  const checkAuthenticated = async () =>{
-    try {
-        const res = await getCurrentUser();
-        fullName.value = (await fetchUserAttributes()).name;
-    } catch (error) {
-        router.push({name: 'auth'});
-    }
-  };
-  
-  onMounted(async () => {
-    checkAuthenticated();
-    
+  const fetchFlights = () => {
     departure.value = departureAirportCode.value;
     arrival.value = arrivalAirportCode.value;
-    
     try {
       flights.value = route.query.flights ? JSON.parse(route.query.flights) : [];
       filteredFlights.value = flights.value;
     } catch (err) {
       errorMessage.value = err.message;
-      //console.error(err);
     } finally {
       loading.value = false;
     }
-  });
+  };
 
   const setPrice = (maxPrice) => {
     maxPriceFilter.value = maxPrice;
@@ -192,6 +180,10 @@
 
   const minimumPrice = computed(() => {
     return Math.min(...flights.value.map(flight => flight.ticketPrice), 1);
+  });
+
+  onMounted(async () => {
+    fetchFlights();
   });
 
 </script>
