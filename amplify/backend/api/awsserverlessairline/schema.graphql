@@ -56,3 +56,16 @@ input CreateBookingInput {
 type Mutation {
     processBooking(input: CreateBookingInput!): Booking
 }
+
+# Loyalty uses API authorization level
+# and loyalty owner is resolved at the resolver level using auth claims
+# to unlock admin use case, `customer/owner` field could be added
+type Loyalty {
+    points: Int
+    level: String
+    remainingPoints: Int
+}
+
+type Query {
+    getLoyalty(customer: String): Loyalty
+}

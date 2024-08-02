@@ -1,6 +1,16 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const getLoyalty = /* GraphQL */ `
+  query GetLoyalty($customer: String) {
+    getLoyalty(customer: $customer) {
+      points
+      level
+      remainingPoints
+      __typename
+    }
+  }
+`;
 export const getFlight = /* GraphQL */ `
   query GetFlight($id: ID!) {
     getFlight(id: $id) {
