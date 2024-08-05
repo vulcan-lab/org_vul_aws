@@ -1,6 +1,9 @@
+"""
+Module for handling flight reservations.
+"""
+
 import json
 import os
-
 import boto3
 from botocore.exceptions import ClientError
 
@@ -10,51 +13,73 @@ table = dynamodb.Table(os.environ['FLIGHT_TABLE_NAME'])
 
 
 class FlightReservationException(Exception):
-    pass
+    """Base exception for flight reservation errors."""
 
 
 class FlightFullyBookedException(FlightReservationException):
-    pass
+    """Exception raised when a flight is fully booked."""
 
 
 class FlightDoesNotExistException(FlightReservationException):
-    pass
+    """Exception raised when a flight does not exist."""
 
 
 def reserve_seat_on_flight(flight_id):
+    """
+    Reserve a seat on a flight.
+
+    Args:
+        flight_id (str): The ID of the flight.
+
+    Returns:
+        dict: A dictionary indicating the reservation status.
+
+    Raises:
+        FlightFullyBookedException: If the flight is fully booked.
+        FlightReservationException: If there is an error with the reservation.
+    """
     try:
-        # TODO: This needs to find the max. In theory, we should never have a situation
-        #       where we're trying to increment the seat when one hasn't been
-        #       decremented, but just to be sure.
         table.update_item(
             Key={"id": flight_id},
             ConditionExpression="id = :idVal AND seatCapacity < maximumSeating",
-            UpdateExpression="SET seatCapacity = seatCapacity + :dec",
+            UpdateExpression="SET seatCapacity = seatCapacity + :inc",
             ExpressionAttributeValues={
                 ":idVal": flight_id,
-                ":dec": 1
+                ":inc": 1
             },
         )
 
         return {
             'status': 'SUCCESS'
         }
-    except dynamodb.meta.client.exceptions.ConditionalCheckFailedException as e:
-        # Due to no specificity from the DDB error, this could also mean the flight
-        # doesn't exist, but we should've caught that earlier in the flow.
-        # TODO: Fix that. Could either use TransactGetItems, or Get then Update.
-        raise FlightFullyBookedException(f"Flight with ID: {flight_id} is fully booked.")
-    except ClientError as e:
-        raise FlightReservationException(e.response['Error']['Message'])
+    except dynamodb.meta.client.exceptions.ConditionalCheckFailedException as error:
+        # Could use TransactGetItems, or Get then Update to check existence.
+        raise FlightFullyBookedException(f"Flight with ID: {flight_id} is fully booked.") from error
+    except ClientError as error:
+        raise FlightReservationException(error.response['Error']['Message']) from error
 
 
-def lambda_handler(event, context):
+def lambda_handler(event, _context):
+    """
+    Lambda handler for reserving a seat on a flight.
+
+    Args:
+        event (dict): The event dictionary containing flight information.
+        _context (object): The context object (unused).
+
+    Returns:
+        str: JSON string of the reservation status.
+
+    Raises:
+        ValueError: If the event arguments are invalid.
+        FlightReservationException: If there is an error with the reservation.
+    """
     if 'outboundFlightId' not in event:
         raise ValueError('Invalid arguments')
 
     try:
-        ret = reserve_seat_on_flight(event['outboundFlightId'])
-    except FlightReservationException as e:
-        raise FlightReservationException(e)
+        result = reserve_seat_on_flight(event['outboundFlightId'])
+    except FlightReservationException as error:
+        raise FlightReservationException(error) from error
 
-    return json.dumps(ret)
+    return json.dumps(result)
