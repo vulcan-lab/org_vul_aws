@@ -1,0 +1,71 @@
+type Flight @model(subscriptions: null) @auth(rules: [
+        { allow: owner },
+        { allow: groups, groups: ["Admins"] },
+        { allow: private, operations: [create, update, delete, read] }
+    ]){
+    id: ID!
+    departureDate: String!
+    departureAirportCode: String! @index(name:"ByDepartureSchedule", sortKeyFields: ["arrivalAirportCode", "departureDate"], queryField: "getFlightBySchedule")
+    departureAirportName: String!
+    departureCity: String!
+    departureLocale: String!
+    arrivalDate: String!
+    arrivalAirportCode: String!
+    arrivalAirportName: String!
+    arrivalCity: String!
+    arrivalLocale: String!
+    ticketPrice: Int!
+    ticketCurrency: String!
+    flightNumber: Int!
+    seatCapacity: Int!
+}
+
+# Booking uses API authorization level
+# and fine-grained auth to only allow book owners to see their own bookings
+# and any authenticated user member of Admin group (e.g. could be travel agency, etc.)
+
+type Booking @model(subscriptions: null) @auth(rules: [
+      {allow: owner, ownerField: "customer", identityClaim: "sub", operations: [create, read] },
+      {allow: groups, groups: ["Admin"] }
+    ]){
+    id: ID!
+    status: BookingStatus!
+    outboundFlight: Flight! @hasOne
+    paymentToken: String!
+    checkedIn: Boolean
+    customer: String @index(name: "ByCustomerStatus", sortKeyFields: ["status"], queryField: "getBookingByStatus")
+    createdAt: String
+    bookingReference: String
+}
+
+enum BookingStatus {
+    UNCONFIRMED
+    CONFIRMED
+    CANCELLED
+}
+
+input CreateBookingInput {
+  id: ID
+  status: BookingStatus
+  paymentToken: String!
+  checkedIn: Boolean
+  customer: String
+  bookingOutboundFlightId: ID!
+}
+
+type Mutation {
+    processBooking(input: CreateBookingInput!): Booking
+}
+
+# Loyalty uses API authorization level
+# and loyalty owner is resolved at the resolver level using auth claims
+# to unlock admin use case, `customer/owner` field could be added
+type Loyalty {
+    points: Int
+    level: String
+    remainingPoints: Int
+}
+
+type Query {
+    getLoyalty(customer: String): Loyalty
+}

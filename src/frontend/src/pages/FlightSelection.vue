@@ -1,0 +1,381 @@
+<template>
+  <q-page>
+    <flight-toolbar
+      v-if="selectedFlight"
+      :departure="selectedFlight.departureAirportCode"
+      :arrival="selectedFlight.arrivalAirportCode"
+    />
+    <div class="flights">
+      <div class="heading">
+        <div
+          class="q-headline text-primary text-center flight__headline"
+          data-test="flight-headline"
+        >
+          <h5>Review your selection</h5>
+        </div>
+      </div>
+      <flight-card v-if="selectedFlight" :details="selectedFlight" />
+    </div>
+    <div class="form__payment">
+      <div class="text-center">
+        <div
+          class="form__header q-pt-md q-headline text-primary text-center"
+          data-test="form-header"
+        >
+          <h5>Payment details</h5>
+        </div>
+        <div class="form">
+          <form>
+            <input type="hidden" name="token" />
+            <div class="group">
+              <label for="name">
+                <span class="text-secondary">Name</span>
+                <input
+                  v-model="form.name"
+                  id="name"
+                  name="name"
+                  placeholder="Name on card"
+                  class="form__input field form__name"
+                  data-test="form-name"
+                  required
+                />
+              </label>
+              <label>
+                <span class="text-secondary">Country</span>
+                <div class="field">
+                  <q-select 
+                    v-model="form.country" 
+                    :options="filteredCountryOptions"
+                    option-label="label"
+                    option-value="value"
+                    emit-value
+                    map-options
+                    @filter="filterCountryOptions"
+                    label="Country" 
+                    hide-dropdown-icon
+                  />
+                </div>
+              </label>
+              <label for="postcode">
+                <span class="text-secondary">Postcode</span>
+                <input
+                  v-model="form.postcode"
+                  id="postcode"
+                  name="postcode"
+                  placeholder="Postcode"
+                  class="form__input field form__postcode"
+                  data-test="form-postcode"
+                  required
+                />
+              </label>
+              <label>
+                <span class="text-secondary">Card number</span>
+                <div
+                  id="card-number-element"
+                  class="form__stripe field form__card"
+                ></div>
+              </label>
+              <label>
+                <span class="text-secondary">Expiry date</span>
+                <div
+                  id="card-expiry-element"
+                  class="form__stripe field form__expiry"
+                ></div>
+              </label>
+              <label>
+                <span class="text-secondary">CVC</span>
+                <div
+                  id="card-cvc-element"
+                  class="form__stripe field form__cvc"
+                ></div>
+              </label>
+              
+              <div class="outcome">
+                <div
+                  class="error text-bold text-secondary form__error"
+                  data-test="form-error"
+                  v-if="token.error"
+                >
+                  {{ token.error.message }}
+                </div>
+              </div>
+             
+            </div>
+          </form>
+        </div>
+        <q-btn
+          @click="payment"
+          class="cta__button text-weight-medium"
+          color="secondary"
+          label="Agree and pay now"
+          data-test="payment-button"
+        >
+          <q-icon
+            class="cta__button--direction"
+            name="keyboard_arrow_right"
+            size="2.6rem"
+          />
+        </q-btn>
+      </div>
+    </div>
+  </q-page>
+</template>
+
+<script setup>
+  
+  import { ref, computed, onBeforeMount, onMounted, watch } from "vue";
+  import { BookingService } from "../services/BookingService";
+  import { useStore } from "vuex";
+  import FlightCard from "../components/FlightCard.vue";
+  import FlightToolbar from "../components/FlightToolbar.vue";
+  import { useVuelidate } from "@vuelidate/core";
+  import { required, minLength } from "@vuelidate/validators";
+  import { useRoute, useRouter } from "vue-router";
+  import { useQuasar } from "quasar";
+  import Fuse from "fuse.js";
+
+  var stripe, card;
+
+  const stripeKey =
+    "pk_test_51PhwbjDWE31jyBLsLeTbV3dF7yWvpm9Af23q0mDn8FgAObEPgHCf3T25ktcoKcbbhgxkRWTIali48W93spKd5GaQ00kNRIahGM";
+
+  const router = useRouter();
+  const route = useRoute();
+  const $q = useQuasar();
+
+  const departure = ref("");
+  const arrival = ref("");
+  const selectedFlight = route.query.flight
+    ? JSON.parse(route.query.flight)
+    : null;
+
+  const filteredCountryOptions = ref([]);
+
+  const form = ref({
+    name: "",
+    country: "",
+    postcode: "",
+    countryOptions: [
+      { label: "Brazil", value: "BR" },
+      { label: "United Kingdom", value: "UK" },
+      { label: "United States", value: "US" }
+    ],
+    isCardInvalid: true,
+  });
+
+  const token = ref({
+    details: "",
+    error: "",
+  });
+
+  const validations = useVuelidate(
+    {
+      form: {
+        name: { required },
+        country: { required },
+        postcode: { required, minLength: minLength(3) },
+      },
+    },
+    form
+  );
+
+  //init countryFuse with countryOptions
+  const countryFuse = new Fuse(form.value.countryOptions, {
+    keys: ['label','value'],
+    threshold: 0.3
+  })
+
+  //filter Country Options base on value selected
+  const filterCountryOptions = (val, update, abort) => {
+    if( val === ''){
+      filteredCountryOptions.value = form.value.countryOptions;
+      update();
+      return;
+    }
+
+    const result = countryFuse.search(val).map(({item}) => item);
+    filteredCountryOptions.value = result;
+    update();
+  };
+
+  // watch change in form countryOptions;
+  watch(() => {
+    countryFuse.setCollection(form.value.countryOptions);
+  });
+
+  onMounted(() => {
+    
+
+    loadStripeJS()
+      .then(loadStripeElements)
+      .catch((err) => console.error(err));
+  });
+
+  const payment = async () => {
+    const options = {
+      name: form.value.name,
+      address_zip: form.value.postcode,
+      address_country: form.value.country,
+    };
+
+    try {
+      const { token: stripeToken, error } = await stripe.createToken(
+        card,
+        options
+      );
+      token.value.details = stripeToken;
+      token.value.error = error;
+
+      if (token.value.error) throw token.value.error;
+
+      const bookingId = await BookingService.processBooking({
+        paymentToken: token.value,
+        outboundFlight: selectedFlight,
+      });
+
+      router.push({ name: "bookings"});
+    } catch (err) {
+      $q.notify({
+        type: "negative",
+        message: `${err.message}`,
+      });
+    }
+  };
+
+  const loadStripeJS = () => {
+    filteredCountryOptions.value = form.value.countryOptions;
+    return new Promise((resolve, reject) => {
+      const stripeScript = document.createElement("script");
+      stripeScript.async = true;
+      stripeScript.src = "https://js.stripe.com/v3/";
+      stripeScript.addEventListener("load", resolve);
+      stripeScript.addEventListener("error", () =>
+        reject("Error loading Stripe Elements.")
+      );
+      document.head.appendChild(stripeScript);
+    });
+  };
+
+  const loadStripeElements = () => {
+    stripe = Stripe(stripeKey);
+    const elements = stripe.elements();
+    const style = {
+      base: {
+        iconColor: "#666EE8",
+        color: "#31325F",
+        lineHeight: "40px",
+        fontWeight: 300,
+        fontFamily: "Helvetica Neue",
+        fontSize: "15px",
+        "::placeholder": { color: "#CFD7E0" },
+      },
+    };
+
+    card = elements.create("cardNumber", { style });
+    const cardExpiryElement = elements.create("cardExpiry", { style });
+    const cardCvcElement = elements.create("cardCvc", { style });
+
+    card.mount("#card-number-element");
+    cardExpiryElement.mount("#card-expiry-element");
+    cardCvcElement.mount("#card-cvc-element");
+
+    card.on("change", (event) => updateCardFeedback(event));
+    cardExpiryElement.on("change", (event) => updateCardFeedback(event));
+    cardCvcElement.on("change", (event) => updateCardFeedback(event));
+  };
+
+  const updateCardFeedback = (result) => {
+    token.value.error = result.error;
+    form.value.isCardInvalid = !result.complete;
+  };
+</script>
+
+<style scoped>
+.flights {
+  margin-top: var(--content-toolbar-margin);
+}
+
+.q-headline {
+  margin-top: 2rem;
+}
+
+.form__payment,
+.form__header {
+  background: var(--grey-2);
+}
+
+form {
+  width: auto;
+  margin: 20px;
+}
+
+.group {
+  background: white;
+  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.1),
+    0 3px 6px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+label {
+  position: relative;
+  font-weight: 300;
+  line-height: 40px;
+  display: flex;
+}
+
+.group label:not(:last-child) {
+  border-bottom: 1px solid #f0f5fa;
+}
+
+label > span {
+  width: 120px;
+  text-align: right;
+  margin-right: 0.4rem;
+}
+
+.field {
+  background: transparent;
+  font-weight: 300;
+  border: none;
+  color: #31325f;
+  outline: none;
+  flex: 1;
+  padding-right: 10px;
+  padding-left: 10px;
+  cursor: text;
+}
+
+.field::-webkit-input-placeholder {
+  color: #cfd7e0;
+}
+
+.field::-moz-placeholder {
+  color: #cfd7e0;
+}
+
+.outcome {
+  float: left;
+  width: 100%;
+  padding-top: 8px;
+  min-height: 24px;
+  text-align: center;
+}
+
+.error {
+  font-size: 20px;
+}
+
+.error.visible {
+  display: inline;
+}
+
+.separator {
+  box-shadow: 0 7px 14px 0 rgba(49, 49, 93, 0.1),
+    0 3px 6px 0 rgba(0, 0, 0, 0.08);
+}
+
+.loader {
+  width: 150%;
+}
+</style>

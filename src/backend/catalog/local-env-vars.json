@@ -1,0 +1,8 @@
+{
+    "ReserveFlightSeat": {
+        "FLIGHT_TABLE_NAME": "Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev"
+    },
+    "ReleaseFlightSeat": {
+        "FLIGHT_TABLE_NAME": "Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev"
+    }
+}
