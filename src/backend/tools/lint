@@ -50,11 +50,11 @@ lint_cloudformation () {
         ignore_checks="$ignore_checks --ignore-checks E9000"
     }
 
-    # if [ -f $service_dir/template.yaml ]; then
-    #     cfn-lint $service_dir/template.yaml \
-    #         --append-rules $ROOT/shared/lint/rules/ \
-    #         $ignore_checks
-    # fi
+    if [ -f $service_dir/template.yaml ]; then
+        cfn-lint $service_dir/template.yaml \
+            --append-rules $ROOT/shared/lint/rules/ \
+            $ignore_checks
+    fi
 
     # We need a build folder to CloudFormation template
     if [ -f $service_dir/build/template.yaml ]; then

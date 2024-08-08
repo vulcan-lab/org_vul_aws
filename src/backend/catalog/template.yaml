@@ -2,41 +2,75 @@ AWSTemplateFormatVersion: 2010-09-09
 Transform: AWS::Serverless-2016-10-31
 
 Parameters:
-  Stage:
+  Environment:
     Type: String
-    Description: Environment stage or git branch
+    Default: dev
+    Description: Environment name
 
+  LogLevel:
+    Type: String
+    Default: INFO
+  
   FlightTable:
     Type: String
     Description: Flight Table
+
+Globals:
+  Function:
+    Runtime: python3.9
+    Architectures:
+      - arm64
+    Handler: main.handler
+    Timeout: 30
+    Tracing: Active
+    Environment:
+      Variables:
+        ENVIRONMENT: !Ref Environment
+        LOG_LEVEL: !Ref LogLevel
+    Layers:
+      - !Sub "arn:aws:lambda:${AWS::Region}:580247275435:layer:LambdaInsightsExtension-Arm64:1"
 
 Resources:
   ReserveFlight:
     Type: AWS::Serverless::Function
     Properties:
       Handler: reserve.lambda_handler
-      Runtime: python3.7
       CodeUri: src/reserve-flight
       Timeout: 10
       Environment:
         Variables:
           FLIGHT_TABLE_NAME: !Ref FlightTable
+      Policies:
+        - arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:*
+              Resource: '*'
 
   ReleaseFlight:
     Type: AWS::Serverless::Function
     Properties:
       Handler: release.lambda_handler
-      Runtime: python3.7
       CodeUri: src/release-flight
       Timeout: 10
       Environment:
         Variables:
           FLIGHT_TABLE_NAME: !Ref FlightTable
+      Policies:
+        - arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy
+        - Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Action:
+                - logs:*
+              Resource: '*'
 
   ReserveFlightParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub /${Stage}/service/catalog/reserveFunction
+      Name: !Sub /${Environment}/service/catalog/reserveFunction
       Description: Reserve Flight Lambda ARN
       Type: String
       Value: !Sub ${ReserveFlight.Arn}
@@ -44,7 +78,7 @@ Resources:
   ReleaseFlightParameter:
     Type: "AWS::SSM::Parameter"
     Properties:
-      Name: !Sub /${Stage}/service/catalog/releaseFunction
+      Name: !Sub /${Environment}/service/catalog/releaseFunction
       Description: Release Flight Lambda ARN
       Type: String
       Value: !Sub ${ReleaseFlight.Arn}
@@ -52,8 +86,8 @@ Resources:
 Outputs:
   ReserveFlightFunction:
     Value: !Sub ${ReserveFlight.Arn}
-    Description: Collect Payment Lambda Function
+    Description: Reserve Flight Lambda Function
 
   ReleaseFlightFunction:
-    Value: !Sub ${ReserveFlight.Arn}
-    Description: Collect Payment Lambda Function
+    Value: !Sub ${ReleaseFlight.Arn}
+    Description: Release Flight Lambda Function

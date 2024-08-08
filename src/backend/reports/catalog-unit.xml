@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites><testsuite errors="0" failures="1" hostname="delpipi-HP-EliteBook-840-G3" name="pytest" skipped="0" tests="1" time="0.988" timestamp="2024-08-08T22:07:29.627354"><testcase classname="catalog.tests.unit.test_release_flight" name="test_reserve_seat_on_flight_success" time="0.576"><failure message="reserve_flight.reserve.FlightReservationException: The security token included in the request is invalid.">flight_id = &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;
+
+    def reserve_seat_on_flight(flight_id):
+        &quot;&quot;&quot;
+        Reserve a seat on a flight.
+    
+        Args:
+            flight_id (str): The ID of the flight.
+    
+        Returns:
+            dict: A dictionary indicating the reservation status.
+    
+        Raises:
+            FlightFullyBookedException: If the flight is fully booked.
+            FlightReservationException: If there is an error with the reservation.
+        &quot;&quot;&quot;
+        try:
+&gt;           table.update_item(
+                Key={&quot;id&quot;: flight_id},
+                ConditionExpression=&quot;id = :idVal AND seatCapacity &gt; :zero&quot;,
+                UpdateExpression=&quot;SET seatCapacity = seatCapacity - :dec&quot;,
+                ExpressionAttributeValues={
+                    &quot;:idVal&quot;: flight_id,
+                    &quot;:dec&quot;: 1,
+                    &quot;:zero&quot;: 0
+                },
+            )
+
+catalog/src/reserve_flight/reserve.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = dynamodb.Table(name=&apos;Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev&apos;), args = ()
+kwargs = {&apos;ConditionExpression&apos;: &apos;id = :idVal AND seatCapacity &gt; :zero&apos;, &apos;ExpressionAttributeValues&apos;: {&apos;:dec&apos;: 1, &apos;:idVal&apos;: &apos;9e...}, &apos;Key&apos;: {&apos;id&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;}, &apos;UpdateExpression&apos;: &apos;SET seatCapacity = seatCapacity - :dec&apos;}
+
+    def do_action(self, *args, **kwargs):
+&gt;       response = action(self, *args, **kwargs)
+
+../../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/boto3/resources/factory.py:581: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;boto3.resources.action.ServiceAction object at 0x7acd8468e4c0&gt;, parent = dynamodb.Table(name=&apos;Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev&apos;), args = ()
+kwargs = {&apos;ConditionExpression&apos;: &apos;id = :idVal AND seatCapacity &gt; :zero&apos;, &apos;ExpressionAttributeValues&apos;: {&apos;:dec&apos;: 1, &apos;:idVal&apos;: &apos;9e...}, &apos;Key&apos;: {&apos;id&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;}, &apos;UpdateExpression&apos;: &apos;SET seatCapacity = seatCapacity - :dec&apos;}
+operation_name = &apos;update_item&apos;
+params = {&apos;ConditionExpression&apos;: &apos;id = :idVal AND seatCapacity &gt; :zero&apos;, &apos;ExpressionAttributeValues&apos;: {&apos;:dec&apos;: 1, &apos;:idVal&apos;: &apos;9e...: 0}, &apos;Key&apos;: {&apos;id&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;}, &apos;TableName&apos;: &apos;Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev&apos;, ...}
+
+    def __call__(self, parent, *args, **kwargs):
+        &quot;&quot;&quot;
+        Perform the action&apos;s request operation after building operation
+        parameters and build any defined resources from the response.
+    
+        :type parent: :py:class:`~boto3.resources.base.ServiceResource`
+        :param parent: The resource instance to which this action is attached.
+        :rtype: dict or ServiceResource or list(ServiceResource)
+        :return: The response, either as a raw dict or resource instance(s).
+        &quot;&quot;&quot;
+        operation_name = xform_name(self._action_model.request.operation)
+    
+        # First, build predefined params and then update with the
+        # user-supplied kwargs, which allows overriding the pre-built
+        # params if needed.
+        params = create_request_parameters(parent, self._action_model.request)
+        params.update(kwargs)
+    
+        logger.debug(
+            &apos;Calling %s:%s with %r&apos;,
+            parent.meta.service_name,
+            operation_name,
+            params,
+        )
+    
+&gt;       response = getattr(parent.meta.client, operation_name)(*args, **params)
+
+../../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/boto3/resources/action.py:88: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.DynamoDB object at 0x7acd84712f70&gt;, args = ()
+kwargs = {&apos;ConditionExpression&apos;: &apos;id = :idVal AND seatCapacity &gt; :zero&apos;, &apos;ExpressionAttributeValues&apos;: {&apos;:dec&apos;: 1, &apos;:idVal&apos;: &apos;9e...: 0}, &apos;Key&apos;: {&apos;id&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;}, &apos;TableName&apos;: &apos;Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev&apos;, ...}
+
+    def _api_call(self, *args, **kwargs):
+        # We&apos;re accepting *args so that we can give a more helpful
+        # error message than TypeError: _api_call takes exactly
+        # 1 argument.
+        if args:
+            raise TypeError(
+                f&quot;{py_operation_name}() only accepts keyword arguments.&quot;
+            )
+        # The &quot;self&quot; in this scope is referring to the BaseClient.
+&gt;       return self._make_api_call(operation_name, kwargs)
+
+../../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:565: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;botocore.client.DynamoDB object at 0x7acd84712f70&gt;, operation_name = &apos;UpdateItem&apos;
+api_params = {&apos;ConditionExpression&apos;: &apos;id = :idVal AND seatCapacity &gt; :zero&apos;, &apos;ExpressionAttributeValues&apos;: {&apos;:dec&apos;: {&apos;N&apos;: &apos;1&apos;}, &apos;:id...Key&apos;: {&apos;id&apos;: {&apos;S&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;}}, &apos;TableName&apos;: &apos;Flight-gq2kc4l6nvb6pn44lg2wfuuhna-dev&apos;, ...}
+
+    def _make_api_call(self, operation_name, api_params):
+        operation_model = self._service_model.operation_model(operation_name)
+        service_name = self._service_model.service_name
+        history_recorder.record(
+            &apos;API_CALL&apos;,
+            {
+                &apos;service&apos;: service_name,
+                &apos;operation&apos;: operation_name,
+                &apos;params&apos;: api_params,
+            },
+        )
+        if operation_model.deprecated:
+            logger.debug(
+                &apos;Warning: %s.%s() is deprecated&apos;, service_name, operation_name
+            )
+        request_context = {
+            &apos;client_region&apos;: self.meta.region_name,
+            &apos;client_config&apos;: self.meta.config,
+            &apos;has_streaming_input&apos;: operation_model.has_streaming_input,
+            &apos;auth_type&apos;: operation_model.auth_type,
+        }
+        api_params = self._emit_api_params(
+            api_params=api_params,
+            operation_model=operation_model,
+            context=request_context,
+        )
+        (
+            endpoint_url,
+            additional_headers,
+            properties,
+        ) = self._resolve_endpoint_ruleset(
+            operation_model, api_params, request_context
+        )
+        if properties:
+            # Pass arbitrary endpoint info with the Request
+            # for use during construction.
+            request_context[&apos;endpoint_properties&apos;] = properties
+        request_dict = self._convert_to_request_dict(
+            api_params=api_params,
+            operation_model=operation_model,
+            endpoint_url=endpoint_url,
+            context=request_context,
+            headers=additional_headers,
+        )
+        resolve_checksum_context(request_dict, operation_model, api_params)
+    
+        service_id = self._service_model.service_id.hyphenize()
+        handler, event_response = self.meta.events.emit_until_response(
+            &apos;before-call.{service_id}.{operation_name}&apos;.format(
+                service_id=service_id, operation_name=operation_name
+            ),
+            model=operation_model,
+            params=request_dict,
+            request_signer=self._request_signer,
+            context=request_context,
+        )
+    
+        if event_response is not None:
+            http, parsed_response = event_response
+        else:
+            maybe_compress_request(
+                self.meta.config, request_dict, operation_model
+            )
+            apply_request_checksum(request_dict)
+            http, parsed_response = self._make_request(
+                operation_model, request_dict, request_context
+            )
+    
+        self.meta.events.emit(
+            &apos;after-call.{service_id}.{operation_name}&apos;.format(
+                service_id=service_id, operation_name=operation_name
+            ),
+            http_response=http,
+            parsed=parsed_response,
+            model=operation_model,
+            context=request_context,
+        )
+    
+        if http.status_code &gt;= 300:
+            error_info = parsed_response.get(&quot;Error&quot;, {})
+            error_code = error_info.get(&quot;QueryErrorCode&quot;) or error_info.get(
+                &quot;Code&quot;
+            )
+            error_class = self.exceptions.from_code(error_code)
+&gt;           raise error_class(parsed_response, operation_name)
+E           botocore.exceptions.ClientError: An error occurred (UnrecognizedClientException) when calling the UpdateItem operation: The security token included in the request is invalid.
+
+../../../../.pyenv/versions/3.9.7/lib/python3.9/site-packages/botocore/client.py:1021: ClientError
+
+The above exception was the direct cause of the following exception:
+
+setup_dynamodb_stub = (dynamodb.ServiceResource(), &lt;botocore.stub.Stubber object at 0x7acd83fa1250&gt;)
+
+    def test_reserve_seat_on_flight_success(setup_dynamodb_stub):
+        dynamodb, stubber = setup_dynamodb_stub
+        table_name = os.environ[&apos;FLIGHT_TABLE_NAME&apos;]
+        table = dynamodb.Table(table_name)
+    
+        # Expected parameters for update_item
+        expected_params = {
+            &apos;Key&apos;: {&apos;id&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;},
+            &apos;ConditionExpression&apos;: &apos;id = :idVal AND seatCapacity &gt; :zero&apos;,
+            &apos;UpdateExpression&apos;: &apos;SET seatCapacity = seatCapacity - :dec&apos;,
+            &apos;ExpressionAttributeValues&apos;: {
+                &apos;:idVal&apos;: &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;,
+                &apos;:dec&apos;: 1,
+                &apos;:zero&apos;: 0
+            }
+        }
+    
+        # Add a successful response to the stubber
+        stubber.add_response(&apos;update_item&apos;, {}, expected_params)
+        stubber.activate()
+    
+        try:
+            # Call the function
+&gt;           result = reserve_seat_on_flight(&apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;)
+
+catalog/tests/unit/test_release_flight.py:61: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+flight_id = &apos;9e0cc93c-555b-4554-959d-f13a70de6c5a&apos;
+
+    def reserve_seat_on_flight(flight_id):
+        &quot;&quot;&quot;
+        Reserve a seat on a flight.
+    
+        Args:
+            flight_id (str): The ID of the flight.
+    
+        Returns:
+            dict: A dictionary indicating the reservation status.
+    
+        Raises:
+            FlightFullyBookedException: If the flight is fully booked.
+            FlightReservationException: If there is an error with the reservation.
+        &quot;&quot;&quot;
+        try:
+            table.update_item(
+                Key={&quot;id&quot;: flight_id},
+                ConditionExpression=&quot;id = :idVal AND seatCapacity &gt; :zero&quot;,
+                UpdateExpression=&quot;SET seatCapacity = seatCapacity - :dec&quot;,
+                ExpressionAttributeValues={
+                    &quot;:idVal&quot;: flight_id,
+                    &quot;:dec&quot;: 1,
+                    &quot;:zero&quot;: 0
+                },
+            )
+    
+            return {
+                &apos;status&apos;: &apos;SUCCESS&apos;
+            }
+        except dynamodb.meta.client.exceptions.ConditionalCheckFailedException as error:
+            # Could use TransactGetItems, or Get then Update to check existence.
+            raise FlightFullyBookedException(f&quot;Flight with ID: {flight_id} is fully booked.&quot;) from error
+        except ClientError as error:
+&gt;           raise FlightReservationException(error.response[&apos;Error&apos;][&apos;Message&apos;]) from error
+E           reserve_flight.reserve.FlightReservationException: The security token included in the request is invalid.
+
+catalog/src/reserve_flight/reserve.py:60: FlightReservationException</failure></testcase></testsuite></testsuites>
